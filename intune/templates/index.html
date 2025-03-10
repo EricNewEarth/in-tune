@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InTune</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Background image paths
+            const backgrounds = [
+                "{{ url_for('static', filename='images/bg1.jpg') }}",
+                "{{ url_for('static', filename='images/bg2.jpg') }}",
+                "{{ url_for('static', filename='images/bg3.jpg') }}",
+                "{{ url_for('static', filename='images/bg4.jpg') }}",
+                "{{ url_for('static', filename='images/bg5.jpg') }}",
+                "{{ url_for('static', filename='images/bg6.jpg') }}"
+            ];
+            
+            // Select random background image
+            const randomIndex = Math.floor(Math.random() * backgrounds.length);
+            const selectedBackground = backgrounds[randomIndex];
+            
+            // Apply background to landing-container
+            document.querySelector('.landing-container').style.background = 
+                `linear-gradient(rgba(25, 20, 20, 0.7), rgba(25, 20, 20, 0.9)), 
+                url('${selectedBackground}') center/cover no-repeat`;
+        });
+    </script>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="landing-content">
+            <h1><span class="spotify-light">Be more</span> <span class="intune-text">In<span class="spotify-green">Tune</span></span><span class="spotify-light"> with your </span><span class="spotify-green">Spotify</span><span class="spotify-light"> listening.</span></h1>
+            <p>See your most recent top artists and tracks.</p>
+            <a href="{{ url_for('login') }}" class="spotify-button">
+                <i class="fab fa-spotify"></i> Login with Spotify
+            </a>
+        </div>
+    </div>
+</body>
+</html>

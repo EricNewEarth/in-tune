@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Complete</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+</head>
+<body>
+    <div class="callback-container">
+        <div class="callback-content">
+            <h1>Authorization <span class="spotify-green">Complete</span></h1>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        // If the authentication is complete, send the session info and close the window
+        if (window.opener) {
+            window.opener.postMessage('auth_complete', '*');
+            setTimeout(function() {
+                window.close();
+            }, 1500);
+        } else {
+            // If there's no window opener, redirect to dashboard
+            setTimeout(function() {
+                window.location.href = "/";
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

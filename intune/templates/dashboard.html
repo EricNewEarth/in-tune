@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InTune</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/intune.png') }}" alt="InTune Logo" class="logo-image">
+                <h1><span class="intune-text">In<span class="spotify-green">Tune</span></span></h1>
+            </div>
+            <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="time-range-selector">
+            <a href="{{ url_for('dashboard', time_range='short_term') }}" class="time-range-button {% if current_time_range == 'short_term' %}active{% endif %}">
+                Past Month
+            </a>
+            <a href="{{ url_for('dashboard', time_range='medium_term') }}" class="time-range-button {% if current_time_range == 'medium_term' %}active{% endif %}">
+                Past 6 Months
+            </a>
+            <a href="{{ url_for('dashboard', time_range='long_term') }}" class="time-range-button {% if current_time_range == 'long_term' %}active{% endif %}">
+                Past Year
+            </a>
+        </div>
+        
+        <h2 class="top-genre">Your top Genre is <span class="intune-text">{{ top_genre }}</span>.</h2>
+
+        <section class="stats-section">
+            <div class="section-header">
+                <h2>Top Artists ({{ total_artists }} total)</h2>
+                <div class="avg-popularity tooltip">
+                    <i class="fas fa-fire"></i> Avg Artist Popularity: {{ avg_artist_popularity }}/100
+                    <span class="tooltip-text">The lower your popularity score, the more niche the artists you listen to are!</span>
+                </div>
+            </div>
+            
+            <div class="grid-container">
+                {% for artist in artists %}
+                <div class="card">
+                    <div class="card-image">
+                        {% if artist.image %}
+                        <img src="{{ artist.image }}" alt="{{ artist.name }}">
+                        {% else %}
+                        <div class="placeholder-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ artist.name }}</h3>
+                        <div class="tags">
+                            {% if artist.genres and artist.genres|length > 0 %}
+                                {% if artist.genres is string %}
+                                    {% for genre in artist.genres.split(', ')[:3] %}
+                                        <span class="tag">{{ genre }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for genre in artist.genres[:3] %}
+                                        <span class="tag">{{ genre }}</span>
+                                    {% endfor %}
+                                {% endif %}
+                            {% else %}
+                                <span class="tag">No genres listed</span>
+                            {% endif %}
+                        </div>
+                        <div class="stats">
+                            <div class="stat">
+                                <i class="fas fa-fire"></i>
+                                <span>{{ artist.popularity }}/100</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>{{ artist.followers }}</span>
+                            </div>
+                        </div>
+                        <a href="{{ artist.link }}" target="_blank" class="spotify-link">
+                            <i class="fab fa-spotify"></i> Open in Spotify
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="stats-section">
+            <div class="section-header">
+                <h2>Top Tracks ({{ total_tracks }} total)</h2>
+                <div class="avg-popularity tooltip">
+                    <i class="fas fa-fire"></i> Avg Track Popularity: {{ avg_track_popularity }}/100
+                    <span class="tooltip-text">The lower your popularity score, the more niche the tracks you listen to are!</span>
+                </div>
+            </div>
+            <div class="grid-container">
+                {% for track in tracks %}
+                <div class="card">
+                    <div class="card-image">
+                        {% if track.image %}
+                        <img src="{{ track.image }}" alt="{{ track.name }}">
+                        {% else %}
+                        <div class="placeholder-image">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ track.name }}</h3>
+                        <p class="artists">
+                            {% if track.artists|length == 1 %}
+                                {{ track.artists[0] }}
+                            {% else %}
+                                {{ track.artists|join(', ') }}
+                            {% endif %}
+                        </p>
+                        <div class="stats">
+                            <div class="stat">
+                                <i class="fas fa-calendar"></i>
+                                <span>{{ track.release_date }}</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-fire"></i>
+                                <span>{{ track.popularity }}/100</span>
+                            </div>
+                        </div>
+                        <a href="{{ track.link }}" target="_blank" class="spotify-link">
+                            <i class="fab fa-spotify"></i> Open in Spotify
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+    </footer>    
+</body>
+</html>
