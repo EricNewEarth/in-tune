@@ -27,25 +27,36 @@ body {
     align-items: center;
     text-align: center;
 }
+
 .landing-content {
     max-width: 800px;
     padding: 2rem;
 }
+
+.main-logo {
+    height: 250px;
+    width: auto;
+}
+
 .landing-content h1 {
     font-size: 3rem;
     margin-bottom: 1rem;
 }
+
 .landing-content p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     color: var(--spotify-light);
 }
+
 .spotify-green {
     color: var(--spotify-green);
 }
+
 .spotify-light {
     color: var(--spotify-light);
 }
+
 .spotify-button {
     display: inline-block;
     background-color: var(--spotify-green);
@@ -56,6 +67,7 @@ body {
     font-weight: bold;
     transition: all 0.3s ease;
 }
+
 .spotify-button:hover {
     background-color: #1ed760;
     transform: translateY(-2px);
@@ -99,7 +111,7 @@ header {
 }
 
 .logo-image {
-    height: 40px;
+    height: 60px;
     width: auto;
     margin-right: 10px;
 }
@@ -120,18 +132,18 @@ main {
     padding: 2rem;
 }
 
-.stats-section {
+.stats-section, .review-section {
     margin-bottom: 3rem;
 }
 
-.stats-section h2 {
+.stats-section h2, .review-section h2 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
     position: relative;
     padding-bottom: 0.5rem;
 }
 
-.stats-section h2::after {
+.stats-section h2::after, .review-section h2::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -156,6 +168,7 @@ main {
 .tooltip {
     position: relative;
     display: inline-block;
+    width: 100%;
 }
 
 .tooltip .tooltip-text {
@@ -173,6 +186,7 @@ main {
     transform: translateX(-50%);
     opacity: 0;
     transition: opacity 0.3s;
+    white-space: normal;
 }
 
 .tooltip .tooltip-text::after {
@@ -187,6 +201,46 @@ main {
 }
 
 .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popularity-tooltip {
+    position: relative;
+    display: inline;
+    width: auto;
+}
+
+.popularity-tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: normal;
+}
+
+.popularity-tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.popularity-tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
 }
@@ -209,7 +263,7 @@ main {
 }
 
 .card-image {
-    height: 250px;
+    height: 210px;
     overflow: hidden;
 }
 
@@ -235,7 +289,7 @@ main {
 }
 
 .card-content h3 {
-    font-size: 1.1rem;
+    font-size: 1.0rem;
     margin-bottom: 0.5rem;
     white-space: nowrap;
     overflow: hidden;
@@ -249,6 +303,15 @@ main {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.artist-name, .track-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
 .tags {
@@ -335,6 +398,32 @@ footer a:hover {
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab {
+        padding: 0.5rem 1rem;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+    }
+
+    .tab.active {
+        border-bottom: none;
+        border-left: 3px solid var(--spotify-green);
+    }
+    
+    .time-range-selector {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .time-range-button {
+        width: 80%;
+        text-align: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -353,7 +442,7 @@ footer a:hover {
     }
 }
 
-.callback-container {
+.callback-container, .review-container{
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -362,17 +451,17 @@ footer a:hover {
     background-color: var(--spotify-black);
 }
 
-.callback-content {
+.callback-content, .review-content {
     max-width: 600px;
     padding: 2rem;
 }
 
-.callback-content h1 {
+.callback-content h1, .review-content h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
 }
 
-.callback-content p {
+.callback-content p, .review-content p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
     color: var(--spotify-light);
@@ -422,15 +511,160 @@ footer a:hover {
     color: white;
 }
 
-@media (max-width: 768px) {
-    .time-range-selector {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    
-    .time-range-button {
-        width: 80%;
-        text-align: center;
-    }
+.spotify-link .fab.fa-spotify {
+    font-size: 21px;
+    vertical-align: middle;
+}
+
+.spotify-footer-logo {
+    height: 30px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.disclaimer {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    color: var(--spotify-light);
+}
+
+/* Terms and Privacy Page Styles */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.back-button-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 2rem;
+    background-color: var(--spotify-green);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+}
+
+/* Tabs for Terms/Privacy */
+.tab-container {
+    margin-bottom: 2rem;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--card-bg);
+}
+
+.tab {
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-weight: bold;
+}
+
+.tab.active {
+    border-bottom: 3px solid var(--spotify-green);
+    color: var(--spotify-green);
+}
+
+.tab-content {
+    display: none;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.last-updated {
+    margin-top: 2rem;
+    font-style: italic;
+    color: var(--spotify-light);
+    font-size: 0.9rem;
+}
+
+/* Terms and Privacy Page Typography */
+.tab-content h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--spotify-green);
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.tab-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--spotify-green);
+}
+
+.tab-content h3 {
+    font-size: 1.3rem;
+    margin: 1.5rem 0 0.8rem;
+    color: white;
+}
+
+.tab-content p, 
+.tab-content ul, 
+.tab-content ol {
+    margin-bottom: 1rem;
+    color: var(--spotify-light);
+}
+
+.tab-content ul, 
+.tab-content ol {
+    padding-left: 2rem;
+}
+
+.tab-content li {
+    margin-bottom: 0.5rem;
+}
+
+/* Terms and Privacy Page Footer */
+.terms-footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--spotify-light);
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--card-bg);
+}
+
+/* Test and review page themes */
+.test-mode-banner {
+    background-color: #1DB954;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }

@@ -13,12 +13,17 @@
     <header>
         <div class="header-content">
             <div class="logo-container">
-                <img src="{{ url_for('static', filename='images/intune.png') }}" alt="InTune Logo" class="logo-image">
-                <h1><span class="intune-text">In<span class="spotify-green">Tune</span></span></h1>
+                <img src="{{ url_for('static', filename='images/intune-icon.png') }}" alt="InTune Logo" class="logo-image">
             </div>
             <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
         </div>
     </header>
+
+    {% if session.get('test_mode') %}
+    <div class="test-mode-banner">
+        <i class="fas fa-flask"></i> Spotify Review Mode
+    </div>
+    {% endif %}
 
     <main>
         <div class="time-range-selector">
@@ -33,13 +38,13 @@
             </a>
         </div>
         
-        <h2 class="top-genre">Your top Genre is <span class="intune-text">{{ top_genre }}</span>.</h2>
+        <h2 class="top-genre">{{ genre_string }}<span class="intune-text">{{ top_genre }}</span>.</h2>
 
         <section class="stats-section">
             <div class="section-header">
                 <h2>Top Artists ({{ total_artists }} total)</h2>
-                <div class="avg-popularity tooltip">
-                    <i class="fas fa-fire"></i> Avg Artist Popularity: {{ avg_artist_popularity }}/100
+                <div class="avg-popularity popularity-tooltip">
+                    <i class="fas fa-fire"></i> Avg Top Artist Popularity: {{ avg_artist_popularity }}/100
                     <span class="tooltip-text">The lower your popularity score, the more niche the artists you listen to are!</span>
                 </div>
             </div>
@@ -57,7 +62,10 @@
                         {% endif %}
                     </div>
                     <div class="card-content">
-                        <h3>{{ artist.name }}</h3>
+                        <div class="tooltip">
+                            <h3 class="artist-name">{{ artist.name }}</h3>
+                            <span class="tooltip-text">{{ artist.name }}</span>
+                        </div>
                         <div class="tags">
                             {% if artist.genres and artist.genres|length > 0 %}
                                 {% if artist.genres is string %}
@@ -95,8 +103,8 @@
         <section class="stats-section">
             <div class="section-header">
                 <h2>Top Tracks ({{ total_tracks }} total)</h2>
-                <div class="avg-popularity tooltip">
-                    <i class="fas fa-fire"></i> Avg Track Popularity: {{ avg_track_popularity }}/100
+                <div class="avg-popularity popularity-tooltip">
+                    <i class="fas fa-fire"></i> Avg Top Track Popularity: {{ avg_track_popularity }}/100
                     <span class="tooltip-text">The lower your popularity score, the more niche the tracks you listen to are!</span>
                 </div>
             </div>
@@ -113,14 +121,26 @@
                         {% endif %}
                     </div>
                     <div class="card-content">
-                        <h3>{{ track.name }}</h3>
-                        <p class="artists">
-                            {% if track.artists|length == 1 %}
-                                {{ track.artists[0] }}
-                            {% else %}
-                                {{ track.artists|join(', ') }}
-                            {% endif %}
-                        </p>
+                        <div class="tooltip">
+                            <h3 class="track-name">{{ track.name }}</h3>
+                            <span class="tooltip-text">{{ track.name }}</span>
+                        </div>
+                        <div class="tooltip">
+                            <p class="artists">
+                                {% if track.artists|length == 1 %}
+                                    {{ track.artists[0] }}
+                                {% else %}
+                                    {{ track.artists|join(', ') }}
+                                {% endif %}
+                            </p>
+                            <span class="tooltip-text">
+                                {% if track.artists|length == 1 %}
+                                    {{ track.artists[0] }}
+                                {% else %}
+                                    {{ track.artists|join(', ') }}
+                                {% endif %}
+                            </span>
+                        </div>
                         <div class="stats">
                             <div class="stat">
                                 <i class="fas fa-calendar"></i>
@@ -141,8 +161,22 @@
         </section>
     </main>
 
+    {% if session.get('test_mode') %}
+    <div class="test-mode-banner">
+        <i class="fas fa-flask"></i> Spotify Review Mode
+    </div>
+    {% endif %}
+
     <footer>
+        <div class="footer-top">
+            <img src="{{ url_for('static', filename='images/spotify.png') }}" alt="Powered by Spotify" class="spotify-footer-logo">
+            <p>Powered by <a href="https://open.spotify.com/" target="_blank">Spotify</a></p>
+        </div>
+        <div class="footer-links">
+            <a href="/terms">Privacy Policy & Terms of Service</a>
+        </div>
+        <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
         <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
-    </footer>    
+    </footer>
 </body>
 </html>

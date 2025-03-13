@@ -69,6 +69,7 @@ def get_authorization_url():
 
 # Exchange authorization code for API access token
 def get_access_token(auth_code):
+    
     token_url = 'https://accounts.spotify.com/api/token'
     
     # Encode client ID and client secret
@@ -89,11 +90,40 @@ def get_access_token(auth_code):
     
     if response.status_code == 200:
         token_info = response.json()
-        return token_info['access_token']
+        # Return both access token and refresh token
+        return token_info['access_token'], token_info['refresh_token']
     else:
         print(f'Error getting token: {response.status_code}')
         print(response.text)
         raise Exception('Failed to get access token.')
+
+# Refresh an expired access token using refresh token
+def refresh_access_token(refresh_token):
+    
+    token_url = 'https://accounts.spotify.com/api/token'
+    
+    # Encode client ID and client secret
+    auth_header = base64.b64encode(f'{CLIENT_ID}:{CLIENT_SECRET}'.encode()).decode()
+    
+    headers = {
+        'Authorization': f'Basic {auth_header}',
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    
+    payload = {
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token
+    }
+    
+    response = requests.post(token_url, headers=headers, data=payload)
+    
+    if response.status_code == 200:
+        token_info = response.json()
+        return token_info['access_token']
+    else:
+        print(f'Error refreshing token: {response.status_code}')
+        print(response.text)
+        raise Exception('Failed to refresh access token.')
 
 # Get top artists and tracks for the given time range
 def get_top_items(access_token, time_range):
@@ -113,7 +143,7 @@ def get_top_items(access_token, time_range):
     else:
         print(f'Error getting artists: {artists_response.status_code}')
         print(artists_response.text)
-        raise Exception('Failed to get top artists.')
+        raise Exception('Failed to get your top data.')
     
     tracks_response = requests.get(tracks_url, headers=headers)
     
@@ -122,7 +152,7 @@ def get_top_items(access_token, time_range):
     else:
         print(f'Error getting tracks: {tracks_response.status_code}')
         print(tracks_response.text)
-        raise Exception('Failed to get top tracks.')
+        raise Exception('Failed to get your top data.')
     
     return artists_data, tracks_data
 

@@ -2,7 +2,6 @@ import os
 import time
 import spotify
 import logging
-import pandas as pd
 from collections import Counter
 from flask import Flask, render_template, send_from_directory, redirect, url_for, session, request, jsonify
 
@@ -54,16 +53,63 @@ def callback():
     # Attempt to get access token from auth code, store token, and redirect to dashboard
     try:
         logger.debug('Exchanging auth code for access token.')
-        access_token = spotify.get_access_token(auth_code)
+        access_token, refresh_token = spotify.get_access_token(auth_code)
         
-        logger.debug('Storing access token in session.')
+        logger.debug('Storing tokens in session.')
         session['access_token'] = access_token
+        session['refresh_token'] = refresh_token
         session['auth_time'] = time.time()
         
         return redirect(url_for('dashboard', time_range='short_term'))
     except Exception as e:
         logger.error(f'Error in callback: {str(e)}.')
         return render_template('error.html', error=str(e))
+    
+# Check if access token is still valid, and refresh it if needed
+def verify_token():
+    access_token = session.get('access_token')
+    refresh_token = session.get('refresh_token')
+    auth_time = session.get('auth_time', 0)
+    
+    # Tokens expire after 3600 seconds (1 hour)
+    # Refresh if token is older than 50 minutes
+    if time.time() - auth_time > 3000 and refresh_token:
+        try:
+            logger.debug('Refreshing access token.')
+            new_access_token = spotify.refresh_access_token(refresh_token)
+            session['access_token'] = new_access_token
+            session['auth_time'] = time.time()
+            return new_access_token
+        except Exception as e:
+            logger.error(f'Error refreshing token: {str(e)}.')
+            session.clear()
+            return None
+    
+    return access_token
+
+@app.route('/test-login')
+def test_login():
+    logger.debug('Starting test login process')
+    
+    # Use environment variables or a secure config for these values
+    test_refresh_token = os.environ.get('TEST_REFRESH_TOKEN')
+    test_access_token = spotify.refresh_access_token(test_refresh_token)
+    
+    if not test_access_token or not test_refresh_token:
+        logger.error('Test credentials not configured')
+        return render_template('error.html', error="Test mode not configured")
+    
+    # Store test tokens in session
+    session['access_token'] = test_access_token
+    session['refresh_token'] = test_refresh_token
+    session['auth_time'] = time.time()
+    session['test_mode'] = True
+    
+    return redirect(url_for('dashboard', time_range='short_term'))
+
+@app.route('/spotify-review')
+def spotify_review():
+    return render_template('review.html')
 
 # Endpoint to debug and make sure session is working
 @app.route('/check-session')
@@ -81,14 +127,20 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+# Display the privacy policy and terms of service page
+@app.route('/terms')
+def terms_of_service():
+    logger.debug('Sending user to terms page.')
+    return render_template('terms.html')
+
 # Displays main dashboard page with user's Spotify data
 @app.route('/dashboard')
 def dashboard():
     logger.debug('Preparing dashboard data.')
-    access_token = session.get('access_token')
+    access_token = verify_token()
     
     if not access_token:
-        logger.warning('No access token found when preparing dashboard.')
+        logger.warning('No valid access token found when preparing dashboard.')
         return redirect(url_for('index'))
     
     # Get time range from query parameter, default to short_term
@@ -115,6 +167,10 @@ def dashboard():
         max_count = max(genre_counts.values(), default=0)
         top_genres = [genre for genre, count in genre_counts.items() if count == max_count]
         top_genre = ", ".join(top_genres)
+        if len(top_genres) == 1:
+            genre_string = 'Your top genre is '
+        else:
+            genre_string = 'Your top genres are '
 
         # Convert DataFrames to dictionaries for template rendering
         artists = final_artists.to_dict('records')
@@ -130,6 +186,7 @@ def dashboard():
                             artists=artists, 
                             tracks=tracks,
                             top_genre=top_genre,
+                            genre_string=genre_string,
                             total_artists=total_artists,
                             total_tracks=total_tracks,
                             avg_artist_popularity=avg_artist_popularity,
