@@ -17,7 +17,11 @@
                 "{{ url_for('static', filename='images/bg3.jpg') }}",
                 "{{ url_for('static', filename='images/bg4.jpg') }}",
                 "{{ url_for('static', filename='images/bg5.jpg') }}",
-                "{{ url_for('static', filename='images/bg6.jpg') }}"
+                "{{ url_for('static', filename='images/bg6.jpg') }}",
+                "{{ url_for('static', filename='images/bg7.jpg') }}",
+                "{{ url_for('static', filename='images/bg8.jpg') }}",
+                "{{ url_for('static', filename='images/bg9.jpg') }}",
+                "{{ url_for('static', filename='images/bg10.jpg') }}"
             ];
             
             // Select random background image
@@ -34,12 +38,25 @@
 <body>
     <div class="landing-container">
         <div class="landing-content">
-            <h1><span class="spotify-light">Be more</span> <span class="intune-text">In<span class="spotify-green">Tune</span></span><span class="spotify-light"> with your </span><span class="spotify-green">Spotify</span><span class="spotify-light"> listening.</span></h1>
+            <img src="{{ url_for('static', filename='images/intune.png') }}" alt="InTune Logo" class="main-logo">
+            <h1><span class="spotify-light">Be more</span> <span class="intune-text">in<span class="spotify-green">tune</span></span><span class="spotify-light"> with your </span><span class="spotify-green">Spotify</span><span class="spotify-light"> listening.</span></h1>
             <p>See your most recent top artists and tracks.</p>
             <a href="{{ url_for('login') }}" class="spotify-button">
                 <i class="fab fa-spotify"></i> Login with Spotify
             </a>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-top">
+            <img src="{{ url_for('static', filename='images/spotify.png') }}" alt="Powered by Spotify" class="spotify-footer-logo">
+            <p>Powered by <a href="https://open.spotify.com/" target="_blank">Spotify</a></p>
+        </div>
+        <div class="footer-links">
+            <a href="/terms">Privacy Policy & Terms of Service</a>
+        </div>
+        <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
+        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+    </footer>
 </body>
 </html>
