@@ -126,10 +126,10 @@ def refresh_access_token(refresh_token):
         raise Exception('Failed to refresh access token.')
 
 # Get top artists and tracks for the given time range
-def get_top_items(access_token, time_range):
+def get_top_items(access_token, time_range, limit=10):
 
-    artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit=10&offset=0'
-    tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit=10&offset=0'
+    artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit={limit}&offset=0'
+    tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit={limit}&offset=0'
 
     artists_data = []
     tracks_data = []
@@ -142,7 +142,6 @@ def get_top_items(access_token, time_range):
         artists_data = artists_response.json()
     else:
         print(f'Error getting artists: {artists_response.status_code}')
-        print(artists_response.text)
         raise Exception('Failed to get your top data.')
     
     tracks_response = requests.get(tracks_url, headers=headers)
@@ -151,7 +150,6 @@ def get_top_items(access_token, time_range):
         tracks_data = tracks_response.json()
     else:
         print(f'Error getting tracks: {tracks_response.status_code}')
-        print(tracks_response.text)
         raise Exception('Failed to get your top data.')
     
     return artists_data, tracks_data
@@ -161,19 +159,27 @@ def parse_artists_data(artists_data) -> tuple[pd.DataFrame, int]:
 
     final_artists = pd.DataFrame(columns=['id', 'name', 'genres', 'popularity', 'followers', 'link', 'image'])
 
-    for item in artists_data['items']:
-        id = item['id']
-        name = item['name']
-        genres = item['genres']
-        popularity = item['popularity']
-        followers = item['followers']['total']
-        link = item['href'].replace('https://api.spotify.com/v1/artists', 'https://open.spotify.com/artist')
-        image = item['images'][0]['url']
+    try:
+        # Handle case where there are no items
+        if not artists_data.get('items'):
+            return final_artists, 0
 
-        row = [id, name, genres, popularity, followers, link, image]
-        final_artists.loc[len(final_artists)] = row
+        for item in artists_data['items']:
+            id = item['id']
+            name = item['name']
+            genres = item['genres']
+            popularity = item['popularity']
+            followers = item['followers']['total']
+            link = item['href'].replace('https://api.spotify.com/v1/artists', 'https://open.spotify.com/artist')
+            image = item['images'][0]['url'] if item['images'] else None
 
-    total_artists = artists_data['total']
+            row = [id, name, genres, popularity, followers, link, image]
+            final_artists.loc[len(final_artists)] = row
+
+        total_artists = artists_data.get('total', 0)
+    except Exception as e:
+        print(f'Error when parsing artist data: {e}')
+        raise e
 
     return final_artists, total_artists
 
@@ -182,22 +188,30 @@ def parse_tracks_data(tracks_data) -> tuple[pd.DataFrame, int]:
 
     final_tracks = pd.DataFrame(columns=['id', 'name', 'artists', 'release_date', 'popularity', 'link', 'image'])
 
-    for item in tracks_data['items']:
-        id = item['id']
-        name = item['name']
-        
-        artists = []
-        for artist in item['artists']:
-            artists.append(artist['name'])
+    try:
+        # Handle case where there are no items
+        if not tracks_data.get('items'):
+            return final_tracks, 0
 
-        release_date = item['album']['release_date']
-        popularity = item['popularity']
-        link = item['href'].replace('https://api.spotify.com/v1/tracks', 'https://open.spotify.com/track')
-        image = item['album']['images'][0]['url']
+        for item in tracks_data['items']:
+            id = item['id']
+            name = item['name']
+            
+            artists = []
+            for artist in item['artists']:
+                artists.append(artist['name'])
 
-        row = [id, name, artists, release_date, popularity, link, image]
-        final_tracks.loc[len(final_tracks)] = row
+            release_date = item['album']['release_date']
+            popularity = item['popularity']
+            link = item['href'].replace('https://api.spotify.com/v1/tracks', 'https://open.spotify.com/track')
+            image = item['album']['images'][0]['url'] if item['album']['images'] else None
 
-    total_tracks = tracks_data['total']
+            row = [id, name, artists, release_date, popularity, link, image]
+            final_tracks.loc[len(final_tracks)] = row
+
+        total_tracks = tracks_data.get('total', 0)
+    except Exception as e:
+        print(f'Error when parsing track data: {e}')
+        raise e
 
     return final_tracks, total_tracks
