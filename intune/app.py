@@ -150,38 +150,78 @@ def dashboard():
         # Get user's top artists and tracks during specified time range
         logger.debug(f'Fetching top items from Spotify API with time_range={time_range}.')
         artists_data, tracks_data = spotify.get_top_items(access_token, time_range)
-        
+
         # Format raw API data into DataFrames
         logger.debug('Parsing API data into DataFrames.')
         final_artists, total_artists = spotify.parse_artists_data(artists_data)
         final_tracks, total_tracks = spotify.parse_tracks_data(tracks_data)
 
+        # Create placeholder data to fill empty grid slots if needed
+        artist_count = len(final_artists)
+        track_count = len(final_tracks)
+
+        # If there are fewer than 10 artists, add empty placeholders to maintain grid layout
+        if artist_count < 10:
+            for i in range(10 - artist_count):
+                placeholder = {
+                    'id': f'placeholder-artist-{i}',
+                    'name': 'No Data Available',
+                    'genres': [],
+                    'popularity': 0,
+                    'followers': 0,
+                    'link': '#',
+                    'image': None
+                }
+                final_artists.loc[len(final_artists)] = placeholder
+
+        # If there are fewer than 10 tracks, add empty placeholders
+        if track_count < 10:
+            for i in range(10 - track_count):
+                placeholder = {
+                    'id': f'placeholder-track-{i}',
+                    'name': 'No Data Available',
+                    'artists': [''],
+                    'release_date': '',
+                    'popularity': 0,
+                    'link': '#',
+                    'image': None
+                }
+                final_tracks.loc[len(final_tracks)] = placeholder
+
         genres_df = final_artists.copy()
 
-        # Ensure 'genres' values are all lists, and flatten before counting
-        genres_df['genres'] = genres_df['genres'].apply(lambda x: x if isinstance(x, list) else eval(x))
-        all_genres = [genre for sublist in genres_df['genres'] for genre in sublist]
-        genre_counts = Counter(all_genres)
+        # Process genre data if there are any artists with genre information
+        if not genres_df.empty and 'genres' in genres_df.columns:
 
-        # Get the max count of each genre value, and if ties occur, concatenate with ', '
-        max_count = max(genre_counts.values(), default=0)
-        top_genres = [genre for genre, count in genre_counts.items() if count == max_count]
-        top_genre = ", ".join(top_genres)
-        if len(top_genres) == 1:
-            genre_string = 'Your top genre is '
+            # Ensure 'genres' values are all lists, and flatten before counting
+            genres_df['genres'] = genres_df['genres'].apply(lambda x: x if isinstance(x, list) else eval(x) if isinstance(x, str) and x.startswith('[') else [])
+            all_genres = [genre for sublist in genres_df['genres'] for genre in sublist]
+            genre_counts = Counter(all_genres)
+
+            # Get the max count of each genre value, and if ties occur, concatenate with ', '
+            max_count = max(genre_counts.values(), default=0)
+            top_genres = [genre for genre, count in genre_counts.items() if count == max_count]
+            top_genre = ", ".join(top_genres)
+
+            if len(top_genres) == 1:
+                genre_string = 'Your top genre is '
+            else:
+                genre_string = 'Your top genres are '
         else:
-            genre_string = 'Your top genres are '
+            # Handle case where no genre data is available
+            top_genre = 'No data available'
+            genre_string = 'Your top genre is '
 
         # Convert DataFrames to dictionaries for template rendering
         artists = final_artists.to_dict('records')
         tracks = final_tracks.to_dict('records')
         
-        # Calculate average popularity of artists and tracks
-        avg_artist_popularity = round(final_artists['popularity'].mean(), 1)
-        avg_track_popularity = round(final_tracks['popularity'].mean(), 1)
+        # Calculate average popularity of artists and tracks if data is available
+        avg_artist_popularity = round(final_artists[:artist_count]['popularity'].mean(), 1) if artist_count > 0 else 0
+        avg_track_popularity = round(final_tracks[:track_count]['popularity'].mean(), 1) if track_count > 0 else 0
 
         # Add all data to the dashboard render_template call
-        logger.debug(f'Rendering dashboard with {len(artists)} artists and {len(tracks)} tracks.')
+        logger.debug(f'Rendering dashboard with {artist_count} artists and {track_count} tracks.')
         return render_template('dashboard.html', 
                             artists=artists, 
                             tracks=tracks,
@@ -189,10 +229,12 @@ def dashboard():
                             genre_string=genre_string,
                             total_artists=total_artists,
                             total_tracks=total_tracks,
+                            actual_artist_count=artist_count,
+                            actual_track_count=track_count,
                             avg_artist_popularity=avg_artist_popularity,
                             avg_track_popularity=avg_track_popularity,
                             current_time_range=time_range)
-
+    
     # If there's an error, clear the session and redirect to login flow
     except Exception as e:
         logger.error(f'Error in dashboard: {str(e)}.')

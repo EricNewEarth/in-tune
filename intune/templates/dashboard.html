@@ -51,7 +51,7 @@
             
             <div class="grid-container">
                 {% for artist in artists %}
-                <div class="card">
+                <div class="card {% if loop.index > actual_artist_count %}placeholder-card{% endif %}">
                     <div class="card-image">
                         {% if artist.image %}
                         <img src="{{ artist.image }}" alt="{{ artist.name }}">
@@ -110,7 +110,7 @@
             </div>
             <div class="grid-container">
                 {% for track in tracks %}
-                <div class="card">
+                <div class="card {% if loop.index > actual_track_count %}placeholder-card{% endif %}">
                     <div class="card-image">
                         {% if track.image %}
                         <img src="{{ track.image }}" alt="{{ track.name }}">
