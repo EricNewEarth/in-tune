@@ -37,6 +37,15 @@
                 Past Year
             </a>
         </div>
+
+        <div class="count-selector">
+            <label for="item-count">Item Count</label>
+            <select id="item-count" class="count-dropdown" onchange="window.location.href=this.value">
+                <option value="{{ url_for('dashboard', time_range=current_time_range, limit=5) }}" {% if current_limit == 5 %}selected{% endif %}>5</option>
+                <option value="{{ url_for('dashboard', time_range=current_time_range, limit=10) }}" {% if current_limit == 10 %}selected{% endif %}>10</option>
+                <option value="{{ url_for('dashboard', time_range=current_time_range, limit=15) }}" {% if current_limit == 15 %}selected{% endif %}>15</option>
+            </select>
+        </div>
         
         <h2 class="top-genre">{{ genre_string }}<span class="intune-text">{{ top_genre }}</span>.</h2>
 

@@ -145,11 +145,17 @@ def dashboard():
     
     # Get time range from query parameter, default to short_term
     time_range = request.args.get('time_range', 'short_term')
+
+    # Get limit from query parameter, default to 10
+    limit = int(request.args.get('limit', 10))
+
+    # Make sure limit is between 5 and 15
+    limit = max(5, min(15, limit))
     
     try:
         # Get user's top artists and tracks during specified time range
-        logger.debug(f'Fetching top items from Spotify API with time_range={time_range}.')
-        artists_data, tracks_data = spotify.get_top_items(access_token, time_range)
+        logger.debug(f'Fetching top items from Spotify API with time_range={time_range}, limit={limit}.')
+        artists_data, tracks_data = spotify.get_top_items(access_token, time_range, limit)
 
         # Format raw API data into DataFrames
         logger.debug('Parsing API data into DataFrames.')
@@ -160,9 +166,9 @@ def dashboard():
         artist_count = len(final_artists)
         track_count = len(final_tracks)
 
-        # If there are fewer than 10 artists, add empty placeholders to maintain grid layout
-        if artist_count < 10:
-            for i in range(10 - artist_count):
+        # If there are fewer than the requested limit of artists, add empty placeholders
+        if artist_count < limit:
+            for i in range(limit - artist_count):
                 placeholder = {
                     'id': f'placeholder-artist-{i}',
                     'name': 'No Data Available',
@@ -174,9 +180,9 @@ def dashboard():
                 }
                 final_artists.loc[len(final_artists)] = placeholder
 
-        # If there are fewer than 10 tracks, add empty placeholders
-        if track_count < 10:
-            for i in range(10 - track_count):
+        # If there are fewer than the requested limit of tracks, add empty placeholders
+        if track_count < limit:
+            for i in range(limit - track_count):
                 placeholder = {
                     'id': f'placeholder-track-{i}',
                     'name': 'No Data Available',
@@ -233,7 +239,8 @@ def dashboard():
                             actual_track_count=track_count,
                             avg_artist_popularity=avg_artist_popularity,
                             avg_track_popularity=avg_track_popularity,
-                            current_time_range=time_range)
+                            current_time_range=time_range,
+                            current_limit=limit)
     
     # If there's an error, clear the session and redirect to login flow
     except Exception as e:

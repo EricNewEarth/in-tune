@@ -68,7 +68,7 @@ def get_authorization_url():
     return f'{auth_url}?{urlencode(auth_params)}'
 
 # Exchange authorization code for API access token
-def get_access_token(auth_code):
+def get_access_token(auth_code: str):
     
     token_url = 'https://accounts.spotify.com/api/token'
     
@@ -98,7 +98,7 @@ def get_access_token(auth_code):
         raise Exception('Failed to get access token.')
 
 # Refresh an expired access token using refresh token
-def refresh_access_token(refresh_token):
+def refresh_access_token(refresh_token: str):
     
     token_url = 'https://accounts.spotify.com/api/token'
     
@@ -126,7 +126,7 @@ def refresh_access_token(refresh_token):
         raise Exception('Failed to refresh access token.')
 
 # Get top artists and tracks for the given time range
-def get_top_items(access_token, time_range, limit=10):
+def get_top_items(access_token: str, time_range: str, limit=10) -> tuple[dict, dict]:
 
     artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit={limit}&offset=0'
     tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit={limit}&offset=0'
@@ -155,7 +155,7 @@ def get_top_items(access_token, time_range, limit=10):
     return artists_data, tracks_data
 
 # Parse artist json data into DataFrame and total artist count
-def parse_artists_data(artists_data) -> tuple[pd.DataFrame, int]:
+def parse_artists_data(artists_data: dict) -> tuple[pd.DataFrame, int]:
 
     final_artists = pd.DataFrame(columns=['id', 'name', 'genres', 'popularity', 'followers', 'link', 'image'])
 
@@ -184,7 +184,7 @@ def parse_artists_data(artists_data) -> tuple[pd.DataFrame, int]:
     return final_artists, total_artists
 
 # Parse track json data into DataFrame and total track count
-def parse_tracks_data(tracks_data) -> tuple[pd.DataFrame, int]:
+def parse_tracks_data(tracks_data: dict) -> tuple[pd.DataFrame, int]:
 
     final_tracks = pd.DataFrame(columns=['id', 'name', 'artists', 'release_date', 'popularity', 'link', 'image'])
 
