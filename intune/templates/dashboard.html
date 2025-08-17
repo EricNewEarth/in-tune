@@ -111,7 +111,12 @@
 
         <section class="stats-section">
             <div class="section-header">
-                <h2>Top Tracks ({{ total_tracks }} total)</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Top Tracks ({{ total_tracks }} total)</h2>
+                    <button id="createPlaylistBtn" class="spotify-button">
+                        <i class="fas fa-music"></i> Create Playlist
+                    </button>
+                </div>
                 <div class="avg-popularity popularity-tooltip">
                     <i class="fas fa-fire"></i> Avg Top Track Popularity: {{ avg_track_popularity }}/100
                     <span class="tooltip-text">The lower your popularity score, the more niche the tracks you listen to are!</span>
@@ -176,6 +181,44 @@
     </div>
     {% endif %}
 
+    <div id="playlistModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Playlist</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="playlistName">Playlist Name</label>
+                <input type="text" id="playlistName" placeholder="Enter playlist name...." maxlength="100">
+                <div class="modal-buttons">
+                    <button id="cancelBtn" class="cancel-button">Cancel</button>
+                    <button id="confirmCreateBtn" class="spotify-button">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Playlist Created!</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p id="successMessage">Your playlist has been created!</p>
+                <div class="modal-buttons">
+                    <button id="closeSuccessBtn" class="cancel-button">Close</button>
+                    <a id="openPlaylistBtn" href="#" target="_blank" class="spotify-button">
+                        <i class="fab fa-spotify"></i> Open in Spotify
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-top">
             <img src="{{ url_for('static', filename='images/spotify.png') }}" alt="Powered by Spotify" class="spotify-footer-logo">
@@ -187,5 +230,8 @@
         <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
         <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
     </footer>
-</body>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+    </body>
 </html>

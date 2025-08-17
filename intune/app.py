@@ -221,6 +221,8 @@ def dashboard():
         # Convert DataFrames to dictionaries for template rendering
         artists = final_artists.to_dict('records')
         tracks = final_tracks.to_dict('records')
+
+        session['current_tracks'] = tracks
         
         # Calculate average popularity of artists and tracks if data is available
         avg_artist_popularity = round(final_artists[:artist_count]['popularity'].mean(), 1) if artist_count > 0 else 0
@@ -247,6 +249,40 @@ def dashboard():
         logger.error(f'Error in dashboard: {str(e)}.')
         session.clear()
         return render_template('error.html', error=str(e))
+
+# Route to handle playlist creation
+@app.route('/create-playlist', methods=['POST'])
+def create_playlist():
+    logger.debug('Creating new playlist.')
+    access_token = verify_token()
+
+    if not access_token:
+        logger.warning('No valid access token found when creating playlist.')
+        return jsonify({'success': False, 'error': 'Authentication required'}), 401
+    
+    try:
+        data = request.get_json()
+        playlist_name = data.get('playlist_name', '').strip()
+        
+        if not playlist_name:
+            return jsonify({'success': False, 'error': 'Playlist name is required'}), 400
+
+        tracks = session.get('current_tracks', [])
+        
+        if not tracks:
+            return jsonify({'success': False, 'error': 'No tracks available'}), 400
+
+        playlist_info = spotify.create_playlist(access_token, playlist_name, tracks)
+        logger.debug(f'Created playlist: {playlist_info}')
+
+        return jsonify({
+            'success': True,
+            'playlist': playlist_info
+        })
+    
+    except Exception as e:
+        logger.error(f'Error creating playlist: {str(e)}.')
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run()

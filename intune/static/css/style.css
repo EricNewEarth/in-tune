@@ -1,3 +1,6 @@
+/* ========================================
+   ROOT VARIABLES
+   ======================================== */
 :root {
     --spotify-green: #1DB954;
     --spotify-black: #191414;
@@ -19,44 +22,9 @@ body {
     line-height: 1.6;
 }
 
-/* Landing Page */
-.landing-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.landing-content {
-    max-width: 800px;
-    padding: 2rem;
-}
-
-.main-logo {
-    height: 250px;
-    width: auto;
-}
-
-.landing-content h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.landing-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: var(--spotify-light);
-}
-
-.spotify-green {
-    color: var(--spotify-green);
-}
-
-.spotify-light {
-    color: var(--spotify-light);
-}
-
+/* ========================================
+   BUTTONS & FORM CONTROLS
+   ======================================== */
 .spotify-button {
     display: inline-block;
     background-color: var(--spotify-green);
@@ -66,6 +34,9 @@ body {
     text-decoration: none;
     font-weight: bold;
     transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .spotify-button:hover {
@@ -73,14 +44,127 @@ body {
     transform: translateY(-2px);
 }
 
-.intune-text {
-    text-decoration: underline;
-    text-decoration-color: #1DB954;
-    text-decoration-thickness: 2px;
-    text-decoration-skip-ink: none;
+.spotify-button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    transform: none;
 }
 
-/* Dashboard */
+.cancel-button {
+    background-color: transparent;
+    border: 2px solid var(--spotify-light);
+    color: var(--spotify-light);
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: var(--spotify-light);
+    color: var(--spotify-black);
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 2rem;
+    background-color: var(--spotify-green);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+}
+
+/* Time Range Selector */
+.time-range-selector {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 2rem;
+    gap: 1rem;
+}
+
+.time-range-button {
+    background-color: var(--card-bg);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.time-range-button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.time-range-button.active {
+    background-color: var(--spotify-green);
+    color: white;
+}
+
+/* Count Selector Dropdown */
+.count-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 2rem;
+    gap: 0.5rem;
+}
+
+.count-selector label {
+    color: var(--spotify-light);
+    font-weight: 500;
+}
+
+.count-dropdown {
+    background-color: var(--card-bg);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    outline: none;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1em;
+    padding-right: 2rem;
+}
+
+.count-dropdown:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.count-dropdown:focus {
+    border: 2px solid var(--spotify-green);
+}
+
+.count-dropdown option {
+    background-color: var(--spotify-black);
+    color: white;
+    padding: 0.5rem;
+}
+
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
 header {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 1rem 2rem;
@@ -126,6 +210,41 @@ header {
     color: var(--spotify-green);
 }
 
+/* ========================================
+   LANDING PAGE
+   ======================================== */
+.landing-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.landing-content {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.main-logo {
+    height: 250px;
+    width: auto;
+}
+
+.landing-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.landing-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--spotify-light);
+}
+
+/* ========================================
+   DASHBOARD LAYOUT
+   ======================================== */
 main {
     max-width: 1400px;
     margin: 0 auto;
@@ -165,6 +284,144 @@ main {
     display: block;
 }
 
+/* ========================================
+   CARDS & GRID LAYOUT
+   ======================================== */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-image {
+    height: 250px;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.card-content h3 {
+    font-size: 1.0rem;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--dark-gray);
+    font-size: 3rem;
+    color: var(--spotify-light);
+}
+
+.placeholder-card {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.placeholder-card .spotify-link {
+    display: none;
+}
+
+/* ========================================
+   CARD CONTENT ELEMENTS
+   ======================================== */
+.artist-name, .track-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.artists {
+    color: var(--spotify-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.tag {
+    background-color: rgba(29, 185, 84, 0.2);
+    color: var(--spotify-green);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    display: inline-block;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--spotify-light);
+    font-size: 0.8rem;
+}
+
+.spotify-link {
+    display: block;
+    text-align: center;
+    color: white;
+    background-color: var(--spotify-green);
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.spotify-link:hover {
+    background-color: #1ed760;
+}
+
+.spotify-link .fab.fa-spotify {
+    font-size: 21px;
+    vertical-align: middle;
+}
+
+/* ========================================
+   TOOLTIPS
+   ======================================== */
 .tooltip {
     position: relative;
     display: inline-block;
@@ -245,130 +502,313 @@ main {
     opacity: 1;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
+/* ========================================
+   MODALS
+   ======================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
-.card {
+.modal-content {
     background-color: var(--card-bg);
+    margin: 10% auto;
+    padding: 0;
     border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--dark-gray);
 }
 
-.card-image {
-    height: 250px;
-    overflow: hidden;
+.modal-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 1.3rem;
 }
 
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.close {
+    color: var(--spotify-light);
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-.card-content {
-    padding: 1rem;
+.close:hover {
+    color: white;
 }
 
-.card-content h3 {
-    font-size: 1.0rem;
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-body label {
+    display: block;
     margin-bottom: 0.5rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: white;
+    font-weight: 500;
 }
 
-.placeholder-image {
+.modal-body input[type="text"] {
     width: 100%;
-    height: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--dark-gray);
+    border-radius: 4px;
+    background-color: var(--spotify-black);
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s ease;
+}
+
+.modal-body input[type="text"]:focus {
+    outline: none;
+    border-color: var(--spotify-green);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.modal-body p {
+    text-align: center;
+    color: var(--spotify-light);
+    margin-bottom: 1.5rem;
+}
+
+.success-icon {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 4rem;
+    color: var(--spotify-green);
+}
+
+.success-icon i {
+    font-size: 3rem;
+    color: var(--spotify-green);
+}
+
+/* ========================================
+   SPECIAL PAGES & CONTAINERS
+   ======================================== */
+.callback-container, .review-container {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--dark-gray);
-    font-size: 3rem;
+    text-align: center;
+    background-color: var(--spotify-black);
+}
+
+.callback-content, .review-content {
+    max-width: 600px;
+    padding: 2rem;
+}
+
+.callback-content h1, .review-content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.callback-content p, .review-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
     color: var(--spotify-light);
 }
 
-.placeholder-card {
-    opacity: 0.3;
-    pointer-events: none;
+/* Spinner Animation */
+.spinner {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid var(--spotify-green);
+    animation: spin 1s linear infinite;
 }
 
-.placeholder-card .spotify-link {
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Test Mode Banner */
+.test-mode-banner {
+    background-color: #1DB954;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Playlist Creation Page */
+.playlist-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+.playlist-details {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    max-width: 500px;
+    width: 100%;
+}
+
+.playlist-name {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.tracks-info {
+    color: var(--spotify-light);
+    margin-bottom: 1.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.message {
+    margin-top: 2rem;
+    color: var(--spotify-light);
+}
+
+/* ========================================
+   TERMS & PRIVACY PAGES
+   ======================================== */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.back-button-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* Tabs */
+.tab-container {
+    margin-bottom: 2rem;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--card-bg);
+}
+
+.tab {
+    padding: 0.8rem 1.5rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-weight: bold;
+}
+
+.tab.active {
+    border-bottom: 3px solid var(--spotify-green);
+    color: var(--spotify-green);
+}
+
+.tab-content {
     display: none;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 8px;
 }
 
-.artists {
+.tab-content.active {
+    display: block;
+}
+
+.last-updated {
+    margin-top: 2rem;
+    font-style: italic;
     color: var(--spotify-light);
     font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-.artist-name, .track-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-    display: block;
+/* Terms and Privacy Typography */
+.tab-content h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--spotify-green);
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.tab-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: var(--spotify-green);
+}
+
+.tab-content h3 {
+    font-size: 1.3rem;
+    margin: 1.5rem 0 0.8rem;
+    color: white;
+}
+
+.tab-content p, 
+.tab-content ul, 
+.tab-content ol {
+    margin-bottom: 1rem;
+    color: var(--spotify-light);
+}
+
+.tab-content ul, 
+.tab-content ol {
+    padding-left: 2rem;
+}
+
+.tab-content li {
     margin-bottom: 0.5rem;
 }
 
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 0.8rem;
-}
-
-.tag {
-    background-color: rgba(29, 185, 84, 0.2);
-    color: var(--spotify-green);
-    padding: 0.2rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    display: inline-block;
-}
-
-.stats {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.8rem;
-}
-
-.stat {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--spotify-light);
-    font-size: 0.8rem;
-}
-
-.spotify-link {
-    display: block;
+.terms-footer {
     text-align: center;
-    color: white;
-    background-color: var(--spotify-green);
-    padding: 0.5rem;
-    border-radius: 4px;
-    text-decoration: none;
+    padding: 2rem 0;
+    color: var(--spotify-light);
     font-size: 0.9rem;
-    transition: background-color 0.3s ease;
+    margin-top: 3rem;
+    border-top: 1px solid var(--card-bg);
 }
 
-.spotify-link:hover {
-    background-color: #1ed760;
-}
-
+/* ========================================
+   FOOTER
+   ======================================== */
 footer {
     text-align: center;
     padding: 2rem;
@@ -386,7 +826,50 @@ footer a:hover {
     color: #145e2a;
 }
 
-/* Responsive Design */
+.spotify-footer-logo {
+    height: 30px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.disclaimer {
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    color: var(--spotify-light);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+.spotify-green {
+    color: var(--spotify-green);
+}
+
+.spotify-light {
+    color: var(--spotify-light);
+}
+
+.intune-text {
+    text-decoration: underline;
+    text-decoration-color: #1DB954;
+    text-decoration-thickness: 2px;
+    text-decoration-skip-ink: none;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
 @media (max-width: 1200px) {
     .grid-container {
         grid-template-columns: repeat(4, 1fr);
@@ -433,6 +916,25 @@ footer a:hover {
         width: 80%;
         text-align: center;
     }
+    
+    .count-selector {
+        margin: 1rem 0 2rem;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+    
+    .modal-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .modal-buttons button, .modal-buttons a {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -449,321 +951,4 @@ footer a:hover {
         align-items: flex-start;
         gap: 0.5rem;
     }
-}
-
-.callback-container, .review-container{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: var(--spotify-black);
-}
-
-.callback-content, .review-content {
-    max-width: 600px;
-    padding: 2rem;
-}
-
-.callback-content h1, .review-content h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.callback-content p, .review-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: var(--spotify-light);
-}
-
-.spinner {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top: 4px solid var(--spotify-green);
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Time Range selector buttons */
-.time-range-selector {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0 2rem;
-    gap: 1rem;
-}
-
-.time-range-button {
-    background-color: var(--card-bg);
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.time-range-button:hover {
-    background-color: #333;
-    transform: translateY(-2px);
-}
-
-.time-range-button.active {
-    background-color: var(--spotify-green);
-    color: white;
-}
-
-/* Count selector dropdown styling */
-.count-selector {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 2rem;
-    gap: 0.5rem;
-}
-
-.count-selector label {
-    color: var(--spotify-light);
-    font-weight: 500;
-}
-
-.count-dropdown {
-    background-color: var(--card-bg);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    border: 2px solid transparent;
-    outline: none;
-    font-weight: 500;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 1em;
-    padding-right: 2rem;
-}
-
-.count-dropdown:hover {
-    background-color: #333;
-    transform: translateY(-2px);
-}
-
-.count-dropdown:focus {
-    border: 2px solid var(--spotify-green);
-}
-
-.count-dropdown option {
-    background-color: var(--spotify-black);
-    color: white;
-    padding: 0.5rem;
-}
-
-@media (max-width: 768px) {
-    .landing-content h1 {
-        font-size: 2.2rem;
-    }
-    
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .tabs {
-        flex-direction: column;
-    }
-
-    .tab {
-        padding: 0.5rem 1rem;
-        border-bottom: none;
-        border-left: 3px solid transparent;
-    }
-
-    .tab.active {
-        border-bottom: none;
-        border-left: 3px solid var(--spotify-green);
-    }
-    
-    .time-range-selector {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    
-    .time-range-button {
-        width: 80%;
-        text-align: center;
-    }
-    
-    .count-selector {
-        margin: 1rem 0 2rem;
-    }
-}
-
-.spotify-link .fab.fa-spotify {
-    font-size: 21px;
-    vertical-align: middle;
-}
-
-.spotify-footer-logo {
-    height: 30px;
-    width: auto;
-    margin-right: 10px;
-}
-
-.footer-top {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.footer-links {
-    margin-bottom: 10px;
-}
-
-.disclaimer {
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-    color: var(--spotify-light);
-}
-
-/* Terms and Privacy Page Styles */
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.back-button-container {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.back-button {
-    display: inline-block;
-    margin-top: 2rem;
-    background-color: var(--spotify-green);
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.back-button:hover {
-    background-color: #1ed760;
-    transform: translateY(-2px);
-}
-
-/* Tabs for Terms/Privacy */
-.tab-container {
-    margin-bottom: 2rem;
-}
-
-.tabs {
-    display: flex;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--card-bg);
-}
-
-.tab {
-    padding: 0.8rem 1.5rem;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    font-weight: bold;
-}
-
-.tab.active {
-    border-bottom: 3px solid var(--spotify-green);
-    color: var(--spotify-green);
-}
-
-.tab-content {
-    display: none;
-    padding: 1rem;
-    background-color: var(--card-bg);
-    border-radius: 8px;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-.last-updated {
-    margin-top: 2rem;
-    font-style: italic;
-    color: var(--spotify-light);
-    font-size: 0.9rem;
-}
-
-/* Terms and Privacy Page Typography */
-.tab-content h2 {
-    font-size: 1.8rem;
-    margin: 2rem 0 1rem;
-    color: var(--spotify-green);
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-.tab-content h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: var(--spotify-green);
-}
-
-.tab-content h3 {
-    font-size: 1.3rem;
-    margin: 1.5rem 0 0.8rem;
-    color: white;
-}
-
-.tab-content p, 
-.tab-content ul, 
-.tab-content ol {
-    margin-bottom: 1rem;
-    color: var(--spotify-light);
-}
-
-.tab-content ul, 
-.tab-content ol {
-    padding-left: 2rem;
-}
-
-.tab-content li {
-    margin-bottom: 0.5rem;
-}
-
-/* Terms and Privacy Page Footer */
-.terms-footer {
-    text-align: center;
-    padding: 2rem 0;
-    color: var(--spotify-light);
-    font-size: 0.9rem;
-    margin-top: 3rem;
-    border-top: 1px solid var(--card-bg);
-}
-
-/* Test and review page themes */
-.test-mode-banner {
-    background-color: #1DB954;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    margin-bottom: 20px;
 }

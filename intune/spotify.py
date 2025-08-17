@@ -8,7 +8,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 # Spotify API credentials
 CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
-SCOPES = 'user-top-read'
+SCOPES = 'user-top-read playlist-modify-public playlist-modify-private'
 
 # Spotify app settings
 BASE_URL = os.environ.get('BASE_URL')
@@ -215,3 +215,68 @@ def parse_tracks_data(tracks_data: dict) -> tuple[pd.DataFrame, int]:
         raise e
 
     return final_tracks, total_tracks
+
+# Create a new Spotify playlist with custom name and current displayed tracks
+def create_playlist(access_token: str, playlist_name: str, tracks_list: list) -> dict:
+
+    # Get the user's profile ID
+    user_url = 'https://api.spotify.com/v1/me'
+    headers = { 'Authorization': f'Bearer {access_token}' }
+
+    user_response = requests.get(user_url, headers=headers)
+
+    if user_response.status_code != 200:
+        print(f'Error getting user profile: {user_response.status_code}, {user_response.text}')
+        raise Exception('Failed to get user profile.')
+    
+    user_data = user_response.json()
+    user_id = user_data['id']
+
+    # Create a new playlist from top items
+    playlist_url = f'https://api.spotify.com/v1/users/{user_id}/playlists'
+    playlist_data = {
+        'name': playlist_name,
+        'description': 'Created using the InTune app.',
+        'public': False # Playlist is private by default
+    }
+
+    playlist_response = requests.post(
+        playlist_url, 
+        headers={**headers, 'Content-Type': 'application/json'}, # Add content type to current header
+        json=playlist_data
+    )
+
+    if playlist_response.status_code != 201:
+        print(f'Error creating playlist: {playlist_response.status_code}, {playlist_response.text}')
+        raise Exception('Failed to create playlist.')
+    
+    playlist_info = playlist_response.json()
+    playlist_id = playlist_info['id']
+
+    # Get track IDs from tracks_list (only non-placeholder tracks)
+    track_ids = [track['id'] for track in tracks_list
+                 if track.get('id') and not str(track.get('id')).startswith('placeholder')]
+    
+    # Add tracks to playlist using post request
+    tracks_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
+    track_uris = [f'spotify:track:{track_id}' for track_id in track_ids]
+
+    add_tracks_data = {'uris': track_uris}
+
+    add_tracks_response = requests.post(
+        tracks_url, 
+        headers={**headers, 'Content-Type': 'application/json'}, # Add content type to current header
+        json=add_tracks_data
+    )
+
+    if add_tracks_response.status_code != 201:
+        print(f'Error adding tracks to playlist: {add_tracks_response.status_code}, {add_tracks_response.text}')
+        raise Exception('Failed to add tracks to playlist.')
+    
+    # Return created playlist details
+    return {
+        'id': playlist_id,
+        'name': playlist_name,
+        'url': playlist_info['external_urls']['spotify'],
+        'tracks_added': len(track_ids)
+    }
