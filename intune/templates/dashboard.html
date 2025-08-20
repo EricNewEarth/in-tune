@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InTune</title>
+
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-SemiBold.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
     <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="/static/favicons/favicon.ico">
@@ -15,6 +21,7 @@
             <div class="logo-container">
                 <img src="{{ url_for('static', filename='images/intune-icon.png') }}" alt="InTune Logo" class="logo-image">
             </div>
+            <h2>Welcome to your <span class="intune-text">in<span class="spotify-green">tune</span></span> dashboard.</h2>
             <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
         </div>
     </header>
@@ -26,6 +33,21 @@
     {% endif %}
 
     <main>
+        <!-- Story Share Section -->
+        <section class="stats-section">
+            <div class="share-container">
+                <button id="shareStoryBtn" class="spotify-button share-btn" onclick="shareStory()">
+                    <i class="fas fa-share"></i> Share Your Last Month
+                </button>
+
+                <!-- Firefox/fallback download button (hidden by default) -->
+                <a id="downloadStoryBtn" href="{{ url_for('generate_story') }}" 
+                class="spotify-button share-btn" download onclick="showDownloadSpinner(this)" style="display: none;">
+                    <i class="fas fa-download"></i> Download Your Last Month
+                </a>
+            </div>
+        </section>
+
         <div class="time-range-selector">
             <a href="{{ url_for('dashboard', time_range='short_term') }}" class="time-range-button {% if current_time_range == 'short_term' %}active{% endif %}">
                 Past Month
@@ -46,7 +68,7 @@
                 <option value="{{ url_for('dashboard', time_range=current_time_range, limit=15) }}" {% if current_limit == 15 %}selected{% endif %}>15</option>
             </select>
         </div>
-        
+
         <h2 class="top-genre">{{ genre_string }}<span class="intune-text">{{ top_genre }}</span>.</h2>
 
         <section class="stats-section">
@@ -78,11 +100,11 @@
                         <div class="tags">
                             {% if artist.genres and artist.genres|length > 0 %}
                                 {% if artist.genres is string %}
-                                    {% for genre in artist.genres.split(', ')[:3] %}
+                                    {% for genre in artist.genres.split(', ') %}
                                         <span class="tag">{{ genre }}</span>
                                     {% endfor %}
                                 {% else %}
-                                    {% for genre in artist.genres[:3] %}
+                                    {% for genre in artist.genres %}
                                         <span class="tag">{{ genre }}</span>
                                     {% endfor %}
                                 {% endif %}
@@ -113,10 +135,10 @@
             <div class="section-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2>Top Tracks ({{ total_tracks }} total)</h2>
-                    <button id="createPlaylistBtn" class="spotify-button">
-                        <i class="fas fa-music"></i> Create Playlist
-                    </button>
                 </div>
+                <button id="createPlaylistBtn" class="spotify-button">
+                    <i class="fas fa-music"></i> Create Playlist
+                </button>
                 <div class="avg-popularity popularity-tooltip">
                     <i class="fas fa-fire"></i> Avg Top Track Popularity: {{ avg_track_popularity }}/100
                     <span class="tooltip-text">The lower your popularity score, the more niche the tracks you listen to are!</span>
@@ -139,30 +161,29 @@
                             <h3 class="track-name">{{ track.name }}</h3>
                             <span class="tooltip-text">{{ track.name }}</span>
                         </div>
-                        <div class="tooltip">
-                            <p class="artists">
-                                {% if track.artists|length == 1 %}
-                                    {{ track.artists[0] }}
+                        <div class="tags">
+                            {% if track.artists and track.artists|length > 0 %}
+                                {% if track.artists is string %}
+                                    {% for artist in track.artists.split(', ') %}
+                                        <span class="tag">{{ artist }}</span>
+                                    {% endfor %}
                                 {% else %}
-                                    {{ track.artists|join(', ') }}
+                                    {% for artist in track.artists %}
+                                        <span class="tag">{{ artist }}</span>
+                                    {% endfor %}
                                 {% endif %}
-                            </p>
-                            <span class="tooltip-text">
-                                {% if track.artists|length == 1 %}
-                                    {{ track.artists[0] }}
-                                {% else %}
-                                    {{ track.artists|join(', ') }}
-                                {% endif %}
-                            </span>
+                            {% else %}
+                                <span class="tag">No artists listed</span>
+                            {% endif %}
                         </div>
                         <div class="stats">
                             <div class="stat">
-                                <i class="fas fa-calendar"></i>
-                                <span>{{ track.release_date }}</span>
-                            </div>
-                            <div class="stat">
                                 <i class="fas fa-fire"></i>
                                 <span>{{ track.popularity }}/100</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-calendar"></i>
+                                <span>{{ track.release_date }}</span>
                             </div>
                         </div>
                         <a href="{{ track.link }}" target="_blank" class="spotify-link">
@@ -174,12 +195,6 @@
             </div>
         </section>
     </main>
-
-    {% if session.get('test_mode') %}
-    <div class="test-mode-banner">
-        <i class="fas fa-flask"></i> Spotify Review Mode
-    </div>
-    {% endif %}
 
     <div id="playlistModal" class="modal">
         <div class="modal-content">

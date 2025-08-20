@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>InTune Review Guide</title>
-        <link rel="stylesheet" href="/static/css/style.css">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-        <link rel="icon" href="/static/favicons/favicon.ico">
-        <link rel="manifest" href="/static/favicons/site.webmanifest">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InTune Review Guide</title>
+
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-SemiBold.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+</head>
 <body>
     <div class="review-container">
         <div class="review-content">

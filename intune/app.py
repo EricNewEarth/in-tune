@@ -2,8 +2,9 @@ import os
 import time
 import spotify
 import logging
+import image_generator
 from collections import Counter
-from flask import Flask, render_template, send_from_directory, redirect, url_for, session, request, jsonify
+from flask import Flask, render_template, send_from_directory, redirect, url_for, jsonify, send_file, make_response, session, request
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -64,7 +65,7 @@ def callback():
     except Exception as e:
         logger.error(f'Error in callback: {str(e)}.')
         return render_template('error.html', error=str(e))
-    
+
 # Check if access token is still valid, and refresh it if needed
 def verify_token():
     access_token = session.get('access_token')
@@ -204,19 +205,30 @@ def dashboard():
             all_genres = [genre for sublist in genres_df['genres'] for genre in sublist]
             genre_counts = Counter(all_genres)
 
-            # Get the max count of each genre value, and if ties occur, concatenate with ', '
+            # Get the max count of each genre value
             max_count = max(genre_counts.values(), default=0)
             top_genres = [genre for genre, count in genre_counts.items() if count == max_count]
-            top_genre = ", ".join(top_genres)
-
+            
+            # Sort genres for consistent ordering
+            top_genres.sort()
+            
+            # Handle three cases for formatting
             if len(top_genres) == 1:
+                # Case 1: Single top genre
+                top_genre = top_genres[0]
                 genre_string = 'Your top genre is '
+            elif len(top_genres) == 2:
+                # Case 2: 2-way tie
+                top_genre = f"{top_genres[0]} and {top_genres[1]}"
+                genre_string = 'Your top genres are '
             else:
+                # Case 3: 3-way or more tie (show first 3)
+                top_genre = f"{', '.join(top_genres[:2])}, and {top_genres[2]}"
                 genre_string = 'Your top genres are '
         else:
             # Handle case where no genre data is available
-            top_genre = 'No data available'
-            genre_string = 'Your top genre is '
+            top_genre = ''
+            genre_string = 'No genres found in your top artists.'
 
         # Convert DataFrames to dictionaries for template rendering
         artists = final_artists.to_dict('records')
@@ -283,6 +295,61 @@ def create_playlist():
     except Exception as e:
         logger.error(f'Error creating playlist: {str(e)}.')
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/generate-story')
+def generate_story():
+    
+    access_token = verify_token()
+    if not access_token:
+        return redirect(url_for('index'))
+    
+    try:
+        # Get the user's top artists and tracks for the past month
+        artists_data, tracks_data = spotify.get_top_items(access_token, 'short_term', 5)
+        final_artists, total_artists = spotify.parse_artists_data(artists_data)
+        final_tracks, total_tracks = spotify.parse_tracks_data(tracks_data)
+
+        # Generate story image
+        img_buffer = image_generator.create_share_image(final_artists, final_tracks, total_artists, total_tracks)
+
+        # Set headers for sharing and downloading using Web Share API
+        user_agent = request.headers.get('User-Agent', '')
+
+        if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
+            # Mobile - optimized for sharing
+            response = make_response(send_file(
+                img_buffer,
+                mimetype='image/png',
+                as_attachment=False,
+                download_name='intune-story.png'
+            ))
+            
+            # Add headers to help mobile browsers recognize the file type
+            response.headers['Content-Type'] = 'image/png'
+            response.headers['Content-Disposition'] = 'inline; filename="intune-story.png"'
+            response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response.headers['Pragma'] = 'no-cache'
+            response.headers['Expires'] = '0'
+            
+            return response
+        else:
+            # Desktop - force download
+            response = make_response(send_file(
+                img_buffer,
+                mimetype='image/png',
+                as_attachment=True,
+                download_name='intune-story.png'
+            ))
+            
+            # Add headers for desktop download
+            response.headers['Content-Type'] = 'image/png'
+            response.headers['Content-Disposition'] = 'attachment; filename="intune-story.png"'
+            
+            return response
+        
+    except Exception as e:
+        logger.error(f'Error generating story: {str(e)}.')
+        return render_template('error.html', error=str(e))
 
 if __name__ == '__main__':
     app.run()

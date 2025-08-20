@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authorization Complete</title>
+    
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-SemiBold.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="icon" href="/static/favicons/favicon.ico">
     <link rel="manifest" href="/static/favicons/site.webmanifest">
@@ -16,19 +22,7 @@
         </div>
     </div>
 
-    <script>
-        // If the authentication is complete, send the session info and close the window
-        if (window.opener) {
-            window.opener.postMessage('auth_complete', '*');
-            setTimeout(function() {
-                window.close();
-            }, 1500);
-        } else {
-            // If there's no window opener, redirect to dashboard
-            setTimeout(function() {
-                window.location.href = "/";
-            }, 1500);
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/callback.js') }}"></script>
+
 </body>
 </html>

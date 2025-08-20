@@ -50,9 +50,12 @@ class CallbackHandler(BaseHTTPRequestHandler):
 
 # Create HTTP server to handle callback using local server
 def start_server():
+
     server_address = ('', PORT)
     httpd = HTTPServer(server_address, CallbackHandler)
+
     print(f'Starting server at http://localhost:{PORT}')
+
     httpd.handle_request() # Only processes the OAuth callback, then stops
 
 # Create authorization code to exchange for Spotify access token
@@ -170,10 +173,13 @@ def parse_artists_data(artists_data: dict) -> tuple[pd.DataFrame, int]:
             genres = item['genres']
             popularity = item['popularity']
             followers = item['followers']['total']
-            link = item['href'].replace('https://api.spotify.com/v1/artists', 'https://open.spotify.com/artist')
+            link = str(item['href']).replace('https://api.spotify.com/v1/artists', 'https://open.spotify.com/artist')
             image = item['images'][0]['url'] if item['images'] else None
 
-            row = [id, name, genres, popularity, followers, link, image]
+            # Format followers for readability
+            formatted_followers = f'{followers:,}'
+
+            row = [id, name, genres, popularity, formatted_followers, link, image]
             final_artists.loc[len(final_artists)] = row
 
         total_artists = artists_data.get('total', 0)
@@ -201,12 +207,16 @@ def parse_tracks_data(tracks_data: dict) -> tuple[pd.DataFrame, int]:
             for artist in item['artists']:
                 artists.append(artist['name'])
 
-            release_date = item['album']['release_date']
+            release_date = str(item['album']['release_date'])
             popularity = item['popularity']
-            link = item['href'].replace('https://api.spotify.com/v1/tracks', 'https://open.spotify.com/track')
+            link = str(item['href']).replace('https://api.spotify.com/v1/tracks', 'https://open.spotify.com/track')
             image = item['album']['images'][0]['url'] if item['album']['images'] else None
 
-            row = [id, name, artists, release_date, popularity, link, image]
+            # Format release date to MM-DD-YYYY
+            year, month, day = release_date.split('-')
+            formatted_release_date = f'{int(month)}/{int(day)}/{year}'
+
+            row = [id, name, artists, formatted_release_date, popularity, link, image]
             final_tracks.loc[len(final_tracks)] = row
 
         total_tracks = tracks_data.get('total', 0)
