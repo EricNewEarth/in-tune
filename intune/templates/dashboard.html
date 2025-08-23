@@ -66,6 +66,8 @@
                 <option value="{{ url_for('dashboard', time_range=current_time_range, limit=5) }}" {% if current_limit == 5 %}selected{% endif %}>5</option>
                 <option value="{{ url_for('dashboard', time_range=current_time_range, limit=10) }}" {% if current_limit == 10 %}selected{% endif %}>10</option>
                 <option value="{{ url_for('dashboard', time_range=current_time_range, limit=15) }}" {% if current_limit == 15 %}selected{% endif %}>15</option>
+                <option value="{{ url_for('dashboard', time_range=current_time_range, limit=25) }}" {% if current_limit == 25 %}selected{% endif %}>25</option>
+                <option value="{{ url_for('dashboard', time_range=current_time_range, limit=50) }}" {% if current_limit == 50 %}selected{% endif %}>50</option>
             </select>
         </div>
 

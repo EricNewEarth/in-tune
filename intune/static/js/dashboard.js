@@ -53,6 +53,68 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Loading indicator functions
+    function showLoadingOverlay() {
+        // Remove any existing overlay
+        removeLoadingOverlay();
+        
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.id = 'loadingOverlay';
+        overlay.className = 'loading-overlay';
+        
+        // Create spinner container
+        const spinnerContainer = document.createElement('div');
+        spinnerContainer.className = 'loading-spinner-container';
+        
+        // Create spinner
+        const spinner = document.createElement('div');
+        spinner.className = 'loading-spinner';
+        
+        // Create loading text
+        const loadingText = document.createElement('div');
+        loadingText.className = 'loading-text';
+        loadingText.textContent = 'Loading your listening data...';
+        
+        // Assemble the overlay
+        spinnerContainer.appendChild(spinner);
+        spinnerContainer.appendChild(loadingText);
+        overlay.appendChild(spinnerContainer);
+        
+        // Add to page
+        document.body.appendChild(overlay);
+    }
+    
+    function removeLoadingOverlay() {
+        const overlay = document.getElementById('loadingOverlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+
+    // Add loading indicators to time range buttons
+    const timeRangeButtons = document.querySelectorAll('.time-range-button');
+    timeRangeButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Don't show loading for the currently active button
+            if (this.classList.contains('active')) {
+                e.preventDefault();
+                return;
+            }
+            
+            showLoadingOverlay();
+        });
+    });
+
+    // Add loading indicator to count dropdown
+    const countDropdown = document.getElementById('item-count');
+    if (countDropdown) {
+        countDropdown.addEventListener('change', function() {
+            showLoadingOverlay();
+            // Let the navigation proceed normally via the onchange handler
+        });
+    }
+
     // Create playlist function
     confirmCreateBtn.addEventListener('click', async function() {
         const playlistName = playlistNameInput.value.trim();

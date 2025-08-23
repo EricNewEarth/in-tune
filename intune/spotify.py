@@ -128,32 +128,31 @@ def refresh_access_token(refresh_token: str):
         print(response.text)
         raise Exception('Failed to refresh access token.')
 
-# Get top artists and tracks for the given time range
+# Get top artists and tracks for the given time range (simplified for limits ≤ 50)
 def get_top_items(access_token: str, time_range: str, limit=10) -> tuple[dict, dict]:
 
     artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit={limit}&offset=0'
     tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_range}&limit={limit}&offset=0'
 
-    artists_data = []
-    tracks_data = []
-    
     headers = { 'Authorization': f'Bearer {access_token}' }
     
+    # Get artists
     artists_response = requests.get(artists_url, headers=headers)
     
     if artists_response.status_code == 200:
         artists_data = artists_response.json()
     else:
         print(f'Error getting artists: {artists_response.status_code}')
-        raise Exception('Failed to get your top data.')
+        raise Exception('Failed to get your top artists data.')
     
+    # Get tracks
     tracks_response = requests.get(tracks_url, headers=headers)
     
     if tracks_response.status_code == 200:
         tracks_data = tracks_response.json()
     else:
         print(f'Error getting tracks: {tracks_response.status_code}')
-        raise Exception('Failed to get your top data.')
+        raise Exception('Failed to get your top tracks data.')
     
     return artists_data, tracks_data
 
@@ -212,9 +211,8 @@ def parse_tracks_data(tracks_data: dict) -> tuple[pd.DataFrame, int]:
             link = str(item['href']).replace('https://api.spotify.com/v1/tracks', 'https://open.spotify.com/track')
             image = item['album']['images'][0]['url'] if item['album']['images'] else None
 
-            # Format release date to MM-DD-YYYY
-            year, month, day = release_date.split('-')
-            formatted_release_date = f'{int(month)}/{int(day)}/{year}'
+            # Handle different release date formats
+            formatted_release_date = format_release_date(release_date)
 
             row = [id, name, artists, formatted_release_date, popularity, link, image]
             final_tracks.loc[len(final_tracks)] = row
@@ -225,6 +223,30 @@ def parse_tracks_data(tracks_data: dict) -> tuple[pd.DataFrame, int]:
         raise e
 
     return final_tracks, total_tracks
+
+# Helper function to handle different release date formats
+def format_release_date(release_date: str) -> str:
+    try:
+        parts = release_date.split('-')
+        
+        # YYYY-MM-DD
+        if len(parts) == 3:
+            year, month, day = parts
+            return f'{int(month)}/{int(day)}/{year}'
+        # YYYY-MM
+        elif len(parts) == 2:
+            year, month = parts
+            return f'{int(month)}/1/{year}'
+        # YYYY
+        elif len(parts) == 1:
+            year = parts[0]
+            return f'1/1/{year}'
+        else:
+            return release_date
+            
+    except (Exception):
+        # If any conversion fails, return the original date
+        return release_date
 
 # Create a new Spotify playlist with custom name and current displayed tracks
 def create_playlist(access_token: str, playlist_name: str, tracks_list: list) -> dict:
@@ -263,9 +285,23 @@ def create_playlist(access_token: str, playlist_name: str, tracks_list: list) ->
     playlist_info = playlist_response.json()
     playlist_id = playlist_info['id']
 
-    # Get track IDs from tracks_list (only non-placeholder tracks)
-    track_ids = [track['id'] for track in tracks_list
-                 if track.get('id') and not str(track.get('id')).startswith('placeholder')]
+    # Get track IDs from tracks_list
+    track_ids = []
+    for track in tracks_list:
+
+        if isinstance(track, dict):
+            track_id = track.get('id')
+
+            # Skip placeholder tracks
+            if track_id and not str(track_id).startswith('placeholder'):
+                track_ids.append(track_id)
+
+        elif isinstance(track, str):
+            if not track.startswith('placeholder'):
+                track_ids.append(track)
+    
+    if not track_ids:
+        raise Exception('No valid tracks found for playlist creation.')
     
     # Add tracks to playlist using post request
     tracks_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
@@ -275,7 +311,7 @@ def create_playlist(access_token: str, playlist_name: str, tracks_list: list) ->
 
     add_tracks_response = requests.post(
         tracks_url, 
-        headers={**headers, 'Content-Type': 'application/json'}, # Add content type to current header
+        headers={**headers, 'Content-Type': 'application/json'},
         json=add_tracks_data
     )
 

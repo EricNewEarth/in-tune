@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-# Use environment variable for secret key in production
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
+test_refresh_token = os.environ.get('TEST_REFRESH_TOKEN')
 
 @app.route('/favicon.ico')
 def favicon():
@@ -93,7 +93,6 @@ def test_login():
     logger.debug('Starting test login process')
     
     # Use environment variables or a secure config for these values
-    test_refresh_token = os.environ.get('TEST_REFRESH_TOKEN')
     test_access_token = spotify.refresh_access_token(test_refresh_token)
     
     if not test_access_token or not test_refresh_token:
@@ -150,8 +149,8 @@ def dashboard():
     # Get limit from query parameter, default to 10
     limit = int(request.args.get('limit', 10))
 
-    # Make sure limit is between 5 and 15
-    limit = max(5, min(15, limit))
+    # Make sure limit is between 5 and 50
+    limit = max(5, min(50, limit))
     
     try:
         # Get user's top artists and tracks during specified time range
@@ -234,7 +233,9 @@ def dashboard():
         artists = final_artists.to_dict('records')
         tracks = final_tracks.to_dict('records')
 
-        session['current_tracks'] = tracks
+        # Store track IDs in session for playlist creation
+        track_ids = [track['id'] for track in tracks if not str(track.get('id')).startswith('placeholder')]
+        session['current_track_ids'] = track_ids
         
         # Calculate average popularity of artists and tracks if data is available
         avg_artist_popularity = round(final_artists[:artist_count]['popularity'].mean(), 1) if artist_count > 0 else 0
@@ -279,12 +280,14 @@ def create_playlist():
         if not playlist_name:
             return jsonify({'success': False, 'error': 'Playlist name is required'}), 400
 
-        tracks = session.get('current_tracks', [])
+        track_ids = session.get('current_track_ids', [])
         
-        if not tracks:
+        if not track_ids:
             return jsonify({'success': False, 'error': 'No tracks available'}), 400
 
-        playlist_info = spotify.create_playlist(access_token, playlist_name, tracks)
+        playlist_tracks = [{'id': track_id} for track_id in track_ids]
+
+        playlist_info = spotify.create_playlist(access_token, playlist_name, playlist_tracks)
         logger.debug(f'Created playlist: {playlist_info}')
 
         return jsonify({
