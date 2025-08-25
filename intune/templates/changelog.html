@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InTune - Changelog</title>
+
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-SemiBold.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/intune-full.png') }}" alt="InTune Logo" class="logo-image">
+            </div>
+            <div class="header-center">
+                <h1>InTune Changelog</h1>
+            </div>
+
+            <!-- Menu -->
+            <div class="hamburger-menu">
+                <button class="hamburger-button" id="hamburgerBtn">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
+                <!-- Side Menu -->
+                <div class="side-menu" id="sideMenu">
+                    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+                    <div class="side-menu-content">
+                        <div class="side-menu-header">
+                            <h3>Menu</h3>
+                            <button class="close-menu" id="closeMenuBtn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <nav class="side-menu-nav">
+                            <a href="{{ url_for('dashboard') }}" class="menu-item">
+                                <i class="fa-solid fa-grip"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="{{ url_for('about') }}" class="menu-item">
+                                <i class="fas fa-info-circle"></i>
+                                <span>About</span>
+                            </a>
+                            <a href="{{ url_for('changelog') }}" class="menu-item active">
+                                <i class="fas fa-list-ul"></i>
+                                <span>Changelog</span>
+                            </a>
+                            <a href="{{ url_for('logout') }}" class="menu-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="changelog-content">
+                
+            <!-- Version 1.6.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.6.0</h2>
+                    <span class="release-date">August 25, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Added menu toggle to dashboard page</li>
+                            <li>Added Changelog page for new features, improvements, and bug fixes over time</li>
+                            <li>Added About page containing an InTune overview, features, technical details, and developer information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Version 1.5.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.5.0</h2>
+                    <span class="release-date">August 23, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Expanded item count options to 25 and 50 items</li>
+                            <li>Added loading indicators when changing item counts, date ranges, or when logging in</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Removed unnecessary session data storage to avoid exceeding session cookie limits</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-bug"></i> Bug Fixes</h3>
+                        <ul>
+                            <li>Fixed a bug where track release dates would not get parsed properly</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Version 1.4.1 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.4.1</h2>
+                    <span class="release-date">August 17, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Added better file formatting handling when sharing on unsupported mobile browsers</li>
+                            <li>Improved dashboard layout for mobile devices</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-bug"></i> Bug Fixes</h3>
+                        <ul>
+                            <li>Fixed a bug where custom fonts would not load on mobile when sharing a story</li>
+                            <li>Fixed a bug that would incorrectly handle sharing on mobile FireFox</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Version 1.4.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.4.0</h2>
+                    <span class="release-date">August 16, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Added a Share feature for supported mobile browsers, and image download for Desktop for the last month of listening</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Improved formatting for artist follower counts and track release dates</li>
+                            <li>Improved how artists appear under Track cards</li>
+                            <li>Removed the genre limit under Artist cards</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-bug"></i> Bug Fixes</h3>
+                        <ul>
+                            <li>Fixed a bug that would incorrectly calculate your top genre</li>
+                            <li>Fixed a bug to ensure that custom fonts appear across all pages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Version 1.3.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.3.0</h2>
+                    <span class="release-date">August 16, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Added the ability to create playlists consisting of the top tracks selection</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Version 1.2.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.2.0</h2>
+                    <span class="release-date">March 26, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Added the ability to select 5, 10, or 15 top items</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Version 1.1.1 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.1.1</h2>
+                    <span class="release-date">March 12, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Added support for cases where users may not have 10 artists or tracks</li>
+                            <li>Increased the size of artist/track cards to better display information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- Version 1.1.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.1.0</h2>
+                    <span class="release-date">March 12, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Added Privacy Policy & Terms of Service page</li>
+                            <li>Added tooltips that show the full artist and track name on hover</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Improved the logo and branding</li>
+                            <li>Added more home page backgrounds</li>
+                            <li>Access tokens now refresh automatically after they expire</li>
+                            <li>Improved the text format for the top genres datapoint</li>
+                            <li>Improved the error message page</li>
+                            <li>Improved design elements to comply with Spotify's Design and Branding guidelines</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-bug"></i> Bug Fixes</h3>
+                        <ul>
+                            <li>Fixed an error with the popularity tooltips centering on the page</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Version 1.0.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 1.0.0</h2>
+                    <span class="release-date">March 10, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-rocket"></i> Initial Release</h3>
+                        <ul>
+                            <li>Spotify authentication and authorization</li>
+                            <li>Display top artists and tracks for 3 different time ranges</li>
+                            <li>Genre analysis and popularity metrics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-button-container">
+        <a href="/" class="back-button">Back to InTune</a>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <img src="{{ url_for('static', filename='images/spotify.png') }}" alt="Powered by Spotify" class="spotify-footer-logo">
+            <p>Powered by <a href="https://open.spotify.com/" target="_blank">Spotify</a></p>
+        </div>
+        <div class="footer-links">
+            <a href="/terms">Privacy Policy & Terms of Service</a>
+        </div>
+        <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
+        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+
+</body>
+</html>

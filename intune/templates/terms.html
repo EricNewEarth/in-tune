@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy & Terms of Service</title>
+    <title>InTune - Privacy Policy & Terms of Service</title>
 
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
@@ -16,14 +16,17 @@
     <link rel="manifest" href="/static/favicons/site.webmanifest">
 </head>
 <body>
-    <div class="container">
-        <header>
+    <header>
+        <div class="header-content">
             <div class="logo">
                 <img src="{{ url_for('static', filename='images/intune-full.png') }}" alt="InTune Logo" class="logo-image">
             </div>
-            <h1>Privacy Policy & Terms of Service</h1>
-        </header>
-
+            <div class="header-center">
+                <h1>Privacy Policy & Terms of Service</h1>
+            </div>
+        </div>
+    </header>
+    <div class="container">
         <div class="tab-container">
             <div class="tabs">
                 <div class="tab active" onclick="openTab(event, 'privacy')">Privacy Policy</div>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InTune - About</title>
+
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-SemiBold.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/intune-full.png') }}" alt="InTune Logo" class="logo-image">
+            </div>
+            <div class="header-center">
+                <h1>About InTune</h1>
+            </div>
+            
+            <!-- Menu -->
+            <div class="hamburger-menu">
+                <button class="hamburger-button" id="hamburgerBtn">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
+                <!-- Side Menu -->
+                <div class="side-menu" id="sideMenu">
+                    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+                    <div class="side-menu-content">
+                        <div class="side-menu-header">
+                            <h3>Menu</h3>
+                            <button class="close-menu" id="closeMenuBtn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <nav class="side-menu-nav">
+                            <a href="{{ url_for('dashboard') }}" class="menu-item">
+                                <i class="fa-solid fa-grip"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="{{ url_for('about') }}" class="menu-item active">
+                                <i class="fas fa-info-circle"></i>
+                                <span>About</span>
+                            </a>
+                            <a href="{{ url_for('changelog') }}" class="menu-item">
+                                <i class="fas fa-list-ul"></i>
+                                <span>Changelog</span>
+                            </a>
+                            <a href="{{ url_for('logout') }}" class="menu-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="about-container">
+            <!-- Application Overview -->
+            <section class="about-section">
+                <div class="section-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="section-content">
+                    <h2>What is InTune?</h2>
+                    <p>InTune is a web application that helps you discover your Spotify listening habits. Get insights into your music taste by viewing your most played artists and tracks across different time periods, creating custom playlists, and sharing your top sounds.</p>
+                    
+                    <p>Built with Python Flask and powered by the Spotify Web API, InTune gives you an interface to explore your music data.</p>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="about-section">
+                <div class="section-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="section-content">
+                    <h2>Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Music Analytics</h3>
+                            <p>View your top artists, tracks, and genres across different time ranges</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-fire"></i>
+                            <h3>Popularity Metrics</h3>
+                            <p>See how niche your music taste is with popularity scores for your top artists and tracks</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-regular fa-circle-play"></i>
+                            <h3>Playlist Creation</h3>
+                            <p>Easily create custom Spotify playlists directly from your top tracks</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-share-alt"></i>
+                            <h3>Social Sharing</h3>
+                            <p>Generate and share story images showcasing your monthly listening highlights</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Details -->
+            <section class="about-section">
+                <div class="section-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="section-content">
+                    <h2>Technical Overview</h2>
+                    <div class="tech-details">
+                        <div class="tech-column">
+                            <h3>Built With</h3>
+                            <ul>
+                                <li><i class="fab fa-python"></i> Python Flask</li>
+                                <li><i class="fas fa-music"></i> Spotify Web API</li>
+                                <li><i class="fab fa-html5"></i> HTML5 & CSS3</li>
+                                <li><i class="fab fa-js-square"></i> JavaScript</li>
+                                <li><i class="fas fa-image"></i> PIL (Image Generation)</li>
+                            </ul>
+                        </div>
+                        <div class="tech-column">
+                            <h3>Features Include</h3>
+                            <ul>
+                                <li><i class="fas fa-chart-bar"></i> Data Visualization</li>
+                                <li><i class="fas fa-download"></i> Image Generation & Sharing</li>
+                                <li><i class="fas fa-shield-alt"></i> OAuth 2.0 Authentication</li>
+                                <li><i class="fas fa-database"></i> Session Management</li>
+                                <li><i class="fas fa-sync"></i> Automatic Token Refreshing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Privacy & Security -->
+            <section class="about-section">
+                <div class="section-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="section-content">
+                    <h2>Privacy & Security</h2>
+                    <p>InTune only requests the minimum permissions necessary to provide its features and does not store your personal data permanently. All authentication is handled securely through Spotify's OAuth 2.0 system.</p>
+                    
+                    <div class="privacy-features">
+                        <div class="privacy-item">
+                            <i class="fas fa-user-shield"></i>
+                            <span>No permanent storage of your data</span>
+                        </div>
+                        <div class="privacy-item">
+                            <i class="fas fa-key"></i>
+                            <span>Secure OAuth 2.0 authentication</span>
+                        </div>
+                        <div class="privacy-item">
+                            <i class="fas fa-eye-slash"></i>
+                            <span>Uses the minimum Spotify access level</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About the Author -->
+            <section class="about-section author-section">
+                <div class="section-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="section-content">
+                    <h2>About the Developer</h2>
+                    <div class="author-content">
+                        <div class="author-image">
+                            <a href="https://www.ericterranova.com" target="_blank">
+                                <img src="{{ url_for('static', filename='images/headshot.jpg') }}" alt="Eric Terranova" class="headshot">
+                            </a>
+                        </div>
+                        <div class="author-info">
+                            <h3>Eric Terranova</h3>
+                            <p class="author-title">Data Engineer</p>
+                            <p>I am Computer Science graduate and data engineer with a passion for problem solving, building data pipelines, and creating data-driven solutions. I created InTune to help music listeners like myself gain insights into their listening habits!</p>
+                            
+                            <p>When I'm not creating data pipelines or automating workflows, I love watching baseball and creating baseball content, doing Taekwondo, and working on my personal passion projects.</p>
+                            
+                            <div class="author-links">
+                                <a href="https://www.ericterranova.com" target="_blank" class="author-link">
+                                    <i class="fas fa-globe"></i>
+                                    Portfolio
+                                </a>
+                                <a href="https://linkedin.com/in/eric-terranova-792a03221" target="_blank" class="author-link">
+                                    <i class="fab fa-linkedin"></i>
+                                    LinkedIn
+                                </a>
+                                <a href="https://github.com/EricNewEarth" target="_blank" class="author-link">
+                                    <i class="fab fa-github"></i>
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="back-button-container">
+            <a href="/" class="back-button">Back to InTune</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <img src="{{ url_for('static', filename='images/spotify.png') }}" alt="Powered by Spotify" class="spotify-footer-logo">
+            <p>Powered by <a href="https://open.spotify.com/" target="_blank">Spotify</a></p>
+        </div>
+        <div class="footer-links">
+            <a href="/terms">Privacy Policy & Terms of Service</a>
+        </div>
+        <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
+        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+
+</body>
+</html>

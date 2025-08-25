@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InTune</title>
+    <title>InTune - Dashboard</title>
 
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
@@ -22,7 +22,46 @@
                 <img src="{{ url_for('static', filename='images/intune-icon.png') }}" alt="InTune Logo" class="logo-image">
             </div>
             <h2>Welcome to your <span class="intune-text">in<span class="spotify-green">tune</span></span> dashboard.</h2>
-            <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+
+            <!-- Menu Button -->
+            <div class="hamburger-menu">
+                <button class="hamburger-button" id="hamburgerBtn">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
+                <!-- Side Menu -->
+                <div class="side-menu" id="sideMenu">
+                    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+                    <div class="side-menu-content">
+                        <div class="side-menu-header">
+                            <h3>Menu</h3>
+                            <button class="close-menu" id="closeMenuBtn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <nav class="side-menu-nav">
+                            <a href="{{ url_for('dashboard') }}" class="menu-item active">
+                                <i class="fa-solid fa-grip"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="{{ url_for('about') }}" class="menu-item">
+                                <i class="fas fa-info-circle"></i>
+                                <span>About</span>
+                            </a>
+                            <a href="{{ url_for('changelog') }}" class="menu-item">
+                                <i class="fas fa-list-ul"></i>
+                                <span>Changelog</span>
+                            </a>
+                            <a href="{{ url_for('logout') }}" class="menu-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 

@@ -133,6 +133,18 @@ def terms_of_service():
     logger.debug('Sending user to terms page.')
     return render_template('terms.html')
 
+# Display the changelog page containing app updates
+@app.route('/changelog')
+def changelog():
+    logger.debug('Sending user to changelog page.')
+    return render_template('changelog.html')
+
+# Display the about page with app and developer info
+@app.route('/about')
+def about():
+    logger.debug('Sending user to about page.')
+    return render_template('about.html')
+
 # Displays main dashboard page with user's Spotify data
 @app.route('/dashboard')
 def dashboard():
@@ -353,6 +365,6 @@ def generate_story():
     except Exception as e:
         logger.error(f'Error generating story: {str(e)}.')
         return render_template('error.html', error=str(e))
-
+    
 if __name__ == '__main__':
     app.run()
