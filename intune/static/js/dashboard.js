@@ -64,6 +64,51 @@ document.addEventListener('DOMContentLoaded', function() {
     createPlaylistBtn.addEventListener('click', function() {
         playlistModal.style.display = 'block';
         playlistNameInput.focus();
+        clearValidationError(); // Clear any previous errors
+    });
+
+    // Function to show validation error
+    function showValidationError(message) {
+        // Remove any existing error
+        clearValidationError();
+        
+        // Add error class to input
+        playlistNameInput.classList.add('error');
+        
+        // Create error message element
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = message;
+        
+        // Insert error message after the input
+        playlistNameInput.parentNode.insertBefore(errorDiv, playlistNameInput.nextSibling);
+        
+        // Add shake animation to input
+        playlistNameInput.classList.add('shake');
+        
+        // Remove shake animation after it completes
+        setTimeout(() => {
+            playlistNameInput.classList.remove('shake');
+        }, 500);
+        
+        // Focus on the input
+        playlistNameInput.focus();
+    }
+
+    // Function to clear validation error
+    function clearValidationError() {
+        playlistNameInput.classList.remove('error');
+        const existingError = document.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+    }
+
+    // Clear error when user starts typing
+    playlistNameInput.addEventListener('input', function() {
+        if (this.classList.contains('error')) {
+            clearValidationError();
+        }
     });
 
     // Close modals function
@@ -71,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
         playlistModal.style.display = 'none';
         successModal.style.display = 'none';
         playlistNameInput.value = '';
+        clearValidationError(); // Clear any validation errors
     }
 
     // Close modal event listeners
@@ -163,12 +209,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Create playlist function
+    // Create playlist function with validation
     confirmCreateBtn.addEventListener('click', async function() {
         const playlistName = playlistNameInput.value.trim();
         
+        // Validation: Check if playlist name is empty
         if (!playlistName) {
-            alert('Please enter a playlist name.');
+            showValidationError('Please enter a playlist name.');
             return;
         }
 
@@ -194,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Close creation modal
                 playlistModal.style.display = 'none';
                 playlistNameInput.value = '';
+                clearValidationError();
 
                 // Show success modal with playlist details
                 document.getElementById('successMessage').textContent = 
@@ -201,11 +249,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('openPlaylistBtn').href = result.playlist.url;
                 successModal.style.display = 'block';
             } else {
-                alert('Error creating playlist: ' + result.error);
+                showValidationError('Error creating playlist: ' + result.error);
             }
         } catch (error) {
             console.error('Error creating playlist:', error);
-            alert('An error occurred while creating the playlist. Please try again.');
+            showValidationError('An error occurred while creating the playlist. Please try again.');
         } finally {
             // Reset button to original state
             confirmCreateBtn.disabled = false;

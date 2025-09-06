@@ -1067,7 +1067,7 @@ main {
     background-color: var(--spotify-black);
     color: white;
     font-size: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     transition: border-color 0.3s ease;
 }
 
@@ -1077,6 +1077,7 @@ main {
 }
 
 .modal-buttons {
+    margin-top: 1rem;
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
@@ -1105,6 +1106,70 @@ main {
     margin: auto;
     margin-bottom: 1rem;
     padding: 0.8rem 2rem;
+}
+
+/* Playlist Modal Error Validation Styles */
+
+.modal-body input[type="text"].error {
+    border-color: #dc2626 !important; /* Red border */
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important; /* Red glow */
+    background-color: rgba(220, 38, 38, 0.05) !important; /* Subtle red background */
+}
+
+.modal-body input[type="text"].error:focus {
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* Error message styling */
+.error-message {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+.error-message::before {
+    content: "\f071"; /* FontAwesome exclamation triangle */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 0.875rem;
+}
+
+/* Shake animation for input */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+    20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Slide down animation for error message */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error state hover effects */
+.modal-body input[type="text"].error::placeholder {
+    color: rgba(220, 38, 38, 0.6);
+}
+
+/* Ensure error styling overrides focus states */
+.modal-body input[type="text"].error:focus::placeholder {
+    color: rgba(220, 38, 38, 0.7);
 }
 
 /* ========================================
@@ -1986,9 +2051,86 @@ footer a:hover {
     .grid-container {
         grid-template-columns: repeat(3, 1fr);
     }
+    
+    /* About page - start stacking on tablets */
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 2rem;
+    }
+    
+    .section-icon {
+        align-self: center;
+        margin-top: 0;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tech-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .privacy-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .author-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .author-links {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 @media (max-width: 768px) {
+    /* HEADER OPTIMIZATIONS FOR MOBILE */
+    .header-content {
+        padding: 0 1rem;
+        position: relative;
+    }
+    
+    .header-content h2 {
+        font-size: 1.1rem; /* Reduced from 1.5rem */
+        max-width: calc(100% - 200px); /* Leave space for logo and menu */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        position: static; /* Remove absolute positioning */
+        transform: none; /* Remove transform */
+        text-align: left; /* Align with logo */
+        margin-left: 1rem; /* Space after logo */
+    }
+    
+    .logo-container {
+        flex-shrink: 0;
+    }
+    
+    .logo-image {
+        height: 60px; /* Reduced from 100px */
+        margin-right: 0;
+    }
+    
+    .hamburger-menu {
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+    
+    /* Adjust header layout to prevent overflow */
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0;
+    }
+
     .landing-content h1 {
         font-size: 2.2rem;
     }
@@ -2105,6 +2247,7 @@ footer a:hover {
 
     .header-edit-input {
         padding: 0.4rem 0.6rem;
+        font-size: 1.2rem;
     }
 
     .custom-placeholder-card .card-add-btn {
@@ -2127,11 +2270,65 @@ footer a:hover {
     .section-divider {
         margin: 2rem 0;
     }
+
+    /* About page mobile optimizations */
+    .about-container {
+        padding: 0 0.5rem;
+    }
+    
+    .about-section {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    
+    .section-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .feature-item {
+        padding: 1rem;
+    }
+    
+    .headshot {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .author-links {
+        gap: 0.5rem;
+    }
+    
+    .author-link {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 480px) {
+    /* FURTHER HEADER OPTIMIZATIONS FOR VERY SMALL SCREENS */
+    .header-content h2 {
+        font-size: 0.9rem; /* Further reduced */
+        max-width: calc(100% - 160px); /* Adjusted for smaller logo */
+        white-space: normal; /* Allow text to wrap */
+        line-height: 1.3; /* Better line spacing for wrapped text */
+    }
+    
+    .logo-image {
+        height: 50px; /* Further reduced */
+    }
+
     .landing-content h1 {
         font-size: 1.8rem;
+    }
+
+    .main-logo {
+        height: 180px;
     }
 
     .grid-container {
@@ -2160,5 +2357,82 @@ footer a:hover {
         font-size: 0.7rem;
         top: 0.3rem;
         right: 0.3rem;
+    }
+
+    .top-genre {
+        font-size: 1.5rem;
+    }
+
+    /* About page very small screen optimizations */
+    .about-section {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .section-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .section-content h2 {
+        font-size: 1.3rem;
+    }
+    
+    .section-content p {
+        font-size: 0.9rem;
+    }
+    
+    .feature-item {
+        padding: 0.8rem;
+    }
+    
+    .feature-item h3 {
+        font-size: 1rem;
+    }
+    
+    .feature-item p {
+        font-size: 0.8rem;
+    }
+    
+    .headshot {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .author-info h3 {
+        font-size: 1.3rem;
+    }
+    
+    .author-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+    
+    .author-link {
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
+    }
+
+    /* Changelog mobile optimizations */
+    .version-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .version-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .changelog-content {
+        padding: 1rem;
+    }
+    
+    .changelog-entry {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
     }
 }
