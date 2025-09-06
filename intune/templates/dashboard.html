@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InTune - Dashboard</title>
+    <title>Dashboard | InTune</title>
 
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
@@ -21,7 +21,7 @@
             <div class="logo-container">
                 <img src="{{ url_for('static', filename='images/intune-icon.png') }}" alt="InTune Logo" class="logo-image">
             </div>
-            <h2>Welcome to your <span class="intune-text">in<span class="spotify-green">tune</span></span> dashboard.</h2>
+            <h2>Welcome to your <span class="intune-text">In<span class="spotify-green">Tune</span></span> dashboard.</h2>
 
             <!-- Menu Button -->
             <div class="hamburger-menu">
@@ -45,6 +45,10 @@
                             <a href="{{ url_for('dashboard') }}" class="menu-item active">
                                 <i class="fa-solid fa-grip"></i>
                                 <span>Dashboard</span>
+                            </a>
+                            <a href="{{ url_for('custom') }}" class="menu-item">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>Custom</span>
                             </a>
                             <a href="{{ url_for('about') }}" class="menu-item">
                                 <i class="fas fa-info-circle"></i>
@@ -117,13 +121,13 @@
                 <h2>Top Artists ({{ total_artists }} total)</h2>
                 <div class="avg-popularity popularity-tooltip">
                     <i class="fas fa-fire"></i> Avg Top Artist Popularity: {{ avg_artist_popularity }}/100
-                    <span class="tooltip-text">The lower your popularity score, the more niche the artists you listen to are!</span>
+                    <span class="tooltip-text">The lower the popularity, the more niche the artist!</span>
                 </div>
             </div>
             
             <div class="grid-container">
                 {% for artist in artists %}
-                <div class="card {% if loop.index > actual_artist_count %}placeholder-card{% endif %}">
+                <div class="card {% if loop.index > actual_artist_count %}dashboard-placeholder-card{% endif %}">
                     <div class="card-image">
                         {% if artist.image %}
                         <img src="{{ artist.image }}" alt="{{ artist.name }}">
@@ -172,6 +176,8 @@
             </div>
         </section>
 
+        <div class="section-divider"></div>
+
         <section class="stats-section">
             <div class="section-header">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -182,12 +188,12 @@
                 </button>
                 <div class="avg-popularity popularity-tooltip">
                     <i class="fas fa-fire"></i> Avg Top Track Popularity: {{ avg_track_popularity }}/100
-                    <span class="tooltip-text">The lower your popularity score, the more niche the tracks you listen to are!</span>
+                    <span class="tooltip-text">The lower the popularity, the more niche the track!</span>
                 </div>
             </div>
             <div class="grid-container">
                 {% for track in tracks %}
-                <div class="card {% if loop.index > actual_track_count %}placeholder-card{% endif %}">
+                <div class="card {% if loop.index > actual_track_count %}dashboard-placeholder-card{% endif %}">
                     <div class="card-image">
                         {% if track.image %}
                         <img src="{{ track.image }}" alt="{{ track.name }}">

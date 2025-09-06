@@ -154,7 +154,7 @@ def create_share_image(final_artists: pd.DataFrame, final_tracks: pd.DataFrame, 
     
     # Footer section
     footer_y = height - 75
-    draw.text((540, footer_y), 'Created with intune', font=small_font, fill=gray, anchor='mm')
+    draw.text((540, footer_y), 'Created with InTune', font=small_font, fill=gray, anchor='mm')
     draw.text((540, footer_y + 40), 'https://in-tune.app', font=small_font, fill=spotify_green, anchor='mm')
     
     # Save image to buffer

@@ -2,6 +2,7 @@ import os
 import time
 import spotify
 import logging
+import requests
 import image_generator
 from collections import Counter
 from flask import Flask, render_template, send_from_directory, redirect, url_for, jsonify, send_file, make_response, session, request
@@ -144,6 +145,31 @@ def changelog():
 def about():
     logger.debug('Sending user to about page.')
     return render_template('about.html')
+
+# Display the custom dashboard and search feature
+@app.route('/custom')
+def custom():
+    logger.debug('Sending user to custom mode page.')
+    access_token = verify_token()
+    
+    if not access_token:
+        logger.warning('No valid access token found when accessing custom page.')
+        return redirect(url_for('index'))
+    
+    # Get limit from query parameter, default to 10
+    limit = int(request.args.get('limit', 10))
+
+    # Make sure limit is between 5 and 50
+    limit = max(5, min(50, limit))
+    
+    # Placeholder values for popularity metrics
+    avg_artist_popularity = 0
+    avg_track_popularity = 0
+    
+    return render_template('custom.html',
+                          current_limit=limit,
+                          avg_artist_popularity=avg_artist_popularity,
+                          avg_track_popularity=avg_track_popularity)
 
 # Displays main dashboard page with user's Spotify data
 @app.route('/dashboard')
@@ -365,6 +391,77 @@ def generate_story():
     except Exception as e:
         logger.error(f'Error generating story: {str(e)}.')
         return render_template('error.html', error=str(e))
+
+@app.route('/api/search', methods=['POST'])
+def search_spotify():
+    logger.debug('Received search request.')
+    access_token = verify_token()
+
+    if not access_token:
+        logger.warning('No valid access token found when searching.')
+        return jsonify({'success': False, 'error': 'Authentication required'}), 401
+    
+    try:
+        data = request.get_json()
+        query = data.get('query', '').strip()
+        search_type = data.get('type')
+        limit = min(data.get('limit', 10), 10)
+
+        if not query:
+            return jsonify({'error': 'Query is required'}), 400
+        
+        if search_type not in ['artist', 'track']:
+            return jsonify({'error': 'Invalid search type'}), 400
+        
+        # Make request to Spotify Search endpoint
+        search_url = 'https://api.spotify.com/v1/search'
+        headers = {'Authorization': f'Bearer {access_token}'}
+
+        params = {
+            'q': query,
+            'type': search_type,
+            'limit': limit
+        }
+
+        logger.debug(f'Searching Spotify for: "{query}" (type: {search_type}, limit: {limit})')
+
+        response = requests.get(search_url, headers=headers, params=params)
+
+        if response.status_code == 401:
+            # Token might be expired, try refreshing
+            logger.debug('Token expired, attempting refresh')
+            new_token = verify_token()
+            if new_token:
+                headers = {'Authorization': f'Bearer {new_token}'}
+                response = requests.get(search_url, headers=headers, params=params)
+            else:
+                logger.warning('Token refresh failed')
+                return jsonify({'error': 'Authentication failed'}), 401
+            
+        if response.status_code != 200:
+            logger.error(f'Spotify search failed: {response.status_code}, {response.text}')
+            return jsonify({'error': f'Spotify API error: {response.status_code}'}), response.status_code
+        
+        search_data = response.json()
+
+        # Extract relevant data based on search type
+        if search_type == 'artist':
+            items = search_data.get('artists', {}).get('items', [])
+        else:
+            items = search_data.get('tracks', {}).get('items', [])
+
+        logger.debug(f'Found {len(items)} {search_type} results')
+
+        return jsonify({
+            'items': items,
+            'total': len(items),
+            'search_type': search_type,
+            'query': query
+        })
+    
+    except Exception as e:
+        logger.error(f'Error in search: {str(e)}')
+        return jsonify({'error': str(e)}), 500
     
 if __name__ == '__main__':
     app.run()

@@ -1,4 +1,4 @@
-// Menu JavaScript functionality for About and Changelog pages
+// Menu JavaScript functionality for dropdown menus
 
 document.addEventListener('DOMContentLoaded', function() {
     

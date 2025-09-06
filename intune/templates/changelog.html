@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InTune - Changelog</title>
+    <title>Changelog | InTune</title>
 
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
@@ -18,12 +18,10 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">
+            <div class="logo-container">
                 <img src="{{ url_for('static', filename='images/intune-full.png') }}" alt="InTune Logo" class="logo-image">
             </div>
-            <div class="header-center">
-                <h1>InTune Changelog</h1>
-            </div>
+            <h2><span class="intune-text">In<span class="spotify-green">Tune</span></span> Changelog</h2>
 
             <!-- Menu -->
             <div class="hamburger-menu">
@@ -48,6 +46,10 @@
                                 <i class="fa-solid fa-grip"></i>
                                 <span>Dashboard</span>
                             </a>
+                            <a href="{{ url_for('custom') }}" class="menu-item">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>Custom</span>
+                            </a>                            
                             <a href="{{ url_for('about') }}" class="menu-item">
                                 <i class="fas fa-info-circle"></i>
                                 <span>About</span>
@@ -68,6 +70,29 @@
     </header>
     <div class="container">
         <div class="changelog-content">
+
+            <!-- Version 2.0.0 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 2.0.0</h2>
+                    <span class="release-date">September 6, 2025</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-plus-circle"></i> New Features</h3>
+                        <ul>
+                            <li>Added a Custom dashboard page, where you can create your own artist and track sections</li>
+                            <li>Custom page section headers can be renamed</li>
+                        </ul>
+                    </div>
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Improved the appearance of the menu sidebar on mobile browsers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
                 
             <!-- Version 1.6.0 -->
             <div class="changelog-entry">
@@ -272,10 +297,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="back-button-container">
-        <a href="/" class="back-button">Back to InTune</a>
     </div>
 
     <footer>

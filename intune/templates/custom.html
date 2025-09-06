@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Mode | InTune</title>
+
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Regular.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Medium.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-SemiBold.ttf') }}" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="{{ url_for('static', filename='fonts/Montserrat-Bold.ttf') }}" as="font" type="font/ttf" crossorigin>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/static/favicons/favicon.ico">
+    <link rel="manifest" href="/static/favicons/site.webmanifest">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/intune-icon.png') }}" alt="InTune Logo" class="logo-image">
+            </div>
+            <h2><span class="intune-text">In<span class="spotify-green">Tune</span></span> Custom Mode</h2>
+
+            <!-- Menu Button -->
+            <div class="hamburger-menu">
+                <button class="hamburger-button" id="hamburgerBtn">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+                
+                <!-- Side Menu -->
+                <div class="side-menu" id="sideMenu">
+                    <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+                    <div class="side-menu-content">
+                        <div class="side-menu-header">
+                            <h3>Menu</h3>
+                            <button class="close-menu" id="closeMenuBtn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <nav class="side-menu-nav">
+                            <a href="{{ url_for('dashboard') }}" class="menu-item">
+                                <i class="fa-solid fa-grip"></i>
+                                <span>Dashboard</span>
+                            </a>
+                            <a href="{{ url_for('custom') }}" class="menu-item active">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <span>Custom</span>
+                            </a>
+                            <a href="{{ url_for('about') }}" class="menu-item">
+                                <i class="fas fa-info-circle"></i>
+                                <span>About</span>
+                            </a>
+                            <a href="{{ url_for('changelog') }}" class="menu-item">
+                                <i class="fas fa-list-ul"></i>
+                                <span>Changelog</span>
+                            </a>
+                            <a href="{{ url_for('logout') }}" class="menu-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="count-selector">
+            <label for="item-count">Item Count</label>
+            <select id="item-count" class="count-dropdown" onchange="window.location.href=this.value">
+                <option value="{{ url_for('custom', limit=5) }}" {% if current_limit == 5 %}selected{% endif %}>5</option>
+                <option value="{{ url_for('custom', limit=10) }}" {% if current_limit == 10 %}selected{% endif %}>10</option>
+                <option value="{{ url_for('custom', limit=15) }}" {% if current_limit == 15 %}selected{% endif %}>15</option>
+                <option value="{{ url_for('custom', limit=25) }}" {% if current_limit == 25 %}selected{% endif %}>25</option>
+                <option value="{{ url_for('custom', limit=50) }}" {% if current_limit == 50 %}selected{% endif %}>50</option>
+            </select>
+        </div>
+
+        <section class="stats-section">
+            <div class="section-header">
+                <div class="editable-header-container">
+                    <h2 class="editable-header" data-original="My Artists" data-field="artists-title">
+                        <span class="header-text">My Artists</span>
+                        <i class="fas fa-pencil-alt edit-icon"></i>
+                    </h2>
+                    <input type="text" class="header-edit-input" style="display: none;" maxlength="50">
+                </div>
+            </div>
+            <div class="avg-popularity popularity-tooltip">
+                <i class="fas fa-fire"></i> Avg Top Artist Popularity: {{ avg_artist_popularity }}/100
+                <span class="tooltip-text">The lower the popularity, the more niche the artist!</span>
+            </div>
+
+            <!-- Artist grid with placeholder cards -->
+            <div class="grid-container" id="artistGrid">
+                {% for i in range(current_limit) %}
+                <div class="card placeholder-card custom-placeholder-card" data-card-type="artist" data-card-index="{{ i }}">
+                    <div class="card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="tooltip">
+                            <h3 class="artist-name">Artist Name</h3>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Genre</span>
+                        </div>
+                        <div class="stats">
+                            <div class="stat">
+                                <i class="fas fa-fire"></i>
+                                <span>--/100</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-users"></i>
+                                <span>--</span>
+                            </div>
+                        </div>
+                        <div class="spotify-link-placeholder">
+                            <i class="fab fa-spotify"></i>
+                        </div>
+                    </div>
+                    <!-- Add button overlay -->
+                    <button class="card-add-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Artist
+                    </button>
+                    <!-- Delete button (hidden by default) -->
+                    <button class="card-delete-btn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="stats-section">
+            <div class="section-header">
+                <div class="editable-header-container">
+                    <h2 class="editable-header" data-original="My Tracks" data-field="tracks-title">
+                        <span class="header-text">My Tracks</span>
+                        <i class="fas fa-pencil-alt edit-icon"></i>
+                    </h2>
+                    <input type="text" class="header-edit-input" style="display: none;" maxlength="50">
+                </div>
+            </div>
+            <div class="avg-popularity popularity-tooltip">
+                <i class="fas fa-fire"></i> Avg Top Track Popularity: {{ avg_track_popularity }}/100
+                <span class="tooltip-text">The lower the popularity, the more niche the track!</span>
+            </div>
+
+            <!-- Track grid with placeholder cards -->
+            <div class="grid-container" id="trackGrid">
+                {% for i in range(current_limit) %}
+                <div class="card placeholder-card custom-placeholder-card" data-card-type="track" data-card-index="{{ i }}">
+                    <div class="card-image">
+                        <div class="placeholder-image">
+                            <i class="fas fa-music"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="tooltip">
+                            <h3 class="track-name">Track Name</h3>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Artist</span>
+                        </div>
+                        <div class="stats">
+                            <div class="stat">
+                                <i class="fas fa-fire"></i>
+                                <span>--/100</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-calendar"></i>
+                                <span>--/--/----</span>
+                            </div>
+                        </div>
+                        <div class="spotify-link-placeholder">
+                            <i class="fab fa-spotify"></i>
+                        </div>
+                    </div>
+                    <!-- Add button overlay -->
+                    <button class="card-add-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Track
+                    </button>
+                    <!-- Delete button (hidden by default) -->
+                    <button class="card-delete-btn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Custom Item Selection Modal -->
+    <div id="customItemModal" class="modal custom-modal">
+        <div class="modal-content custom-modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Artist</h3>
+                <span class="close custom-modal-close">&times;</span>
+            </div>
+            <div class="modal-body custom-modal-body">
+                <!-- Search Section -->
+                <div class="modal-search-section">
+                    <div class="modal-search-wrapper">
+                        <input type="text" 
+                               id="modalSearchInput" 
+                               class="modal-search-input" 
+                               placeholder="Search for artists..."
+                               maxlength="100">
+                    </div>
+                </div>
+
+                <!-- Search Results Section -->
+                <div class="modal-results-section">
+                    <div class="modal-results-header">
+                        <h4>Search Results</h4>
+                    </div>
+                    <div class="modal-results-container" id="modalSearchResults">
+                        <!-- Wireframe placeholder results -->
+                        <div class="modal-no-search">
+                            <i class="fas fa-search"></i>
+                            <p>Start typing to search for items...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Selection Section -->
+                <div class="modal-selection-section">
+                    <div class="modal-selection-header">
+                        <h4>Current Selection</h4>
+                    </div>
+                    <div class="modal-selection-preview" id="modalSelectionPreview">
+                        <div class="modal-no-selection">
+                            <i class="fas fa-plus-circle"></i>
+                            <p>No item selected</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modalCancelBtn" class="cancel-button">Cancel</button>
+                <button id="modalSaveBtn" class="spotify-button" disabled>Add to Custom List</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-top">
+            <img src="{{ url_for('static', filename='images/spotify.png') }}" alt="Powered by Spotify" class="spotify-footer-logo">
+            <p>Powered by <a href="https://open.spotify.com/" target="_blank">Spotify</a></p>
+        </div>
+        <div class="footer-links">
+            <a href="/terms">Privacy Policy & Terms of Service</a>
+        </div>
+        <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
+        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+</body>
+</html>
