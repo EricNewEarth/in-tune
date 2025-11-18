@@ -76,6 +76,33 @@
     {% endif %}
 
     <main>
+
+        <!-- User Profile Section -->
+        {% if user_profile %}
+        <section class="user-profile-section">
+            <div class="user-profile-container">
+                <div class="profile-image-wrapper">
+                    {% if user_profile.profile_image %}
+                    <img src="{{ user_profile.profile_image }}" alt="{{ user_profile.display_name }}" class="profile-image">
+                    {% else %}
+                    <div class="profile-image-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="profile-info">
+                    <a href="{{ user_profile.spotify_url }}" target="_blank" class="profile-name-link">
+                        <h3 class="profile-name">{{ user_profile.display_name }}</h3>
+                    </a>
+                    <div class="profile-followers">
+                        <i class="fas fa-users"></i>
+                        <span>{{ user_profile.followers }} followers</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
         <!-- Story Share Section -->
         <section class="stats-section">
             <div class="share-container">
@@ -183,13 +210,13 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2>Top Tracks ({{ total_tracks }} total)</h2>
                 </div>
-                <button id="createPlaylistBtn" class="spotify-button">
-                    <i class="fas fa-music"></i> Create Playlist
-                </button>
                 <div class="avg-popularity popularity-tooltip">
                     <i class="fas fa-fire"></i> Avg Top Track Popularity: {{ avg_track_popularity }}/100
                     <span class="tooltip-text">The lower the popularity, the more niche the track!</span>
                 </div>
+                <button id="createPlaylistBtn" class="spotify-button">
+                    <i class="fas fa-music"></i> Create Playlist
+                </button>
             </div>
             <div class="grid-container">
                 {% for track in tracks %}

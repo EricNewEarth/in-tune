@@ -69,16 +69,45 @@
         </div>
     </header>
     <main>
-        <div class="count-selector">
-            <label for="item-count">Item Count</label>
-            <select id="item-count" class="count-dropdown" onchange="window.location.href=this.value">
-                <option value="{{ url_for('custom', limit=5) }}" {% if current_limit == 5 %}selected{% endif %}>5</option>
-                <option value="{{ url_for('custom', limit=10) }}" {% if current_limit == 10 %}selected{% endif %}>10</option>
-                <option value="{{ url_for('custom', limit=15) }}" {% if current_limit == 15 %}selected{% endif %}>15</option>
-                <option value="{{ url_for('custom', limit=25) }}" {% if current_limit == 25 %}selected{% endif %}>25</option>
-                <option value="{{ url_for('custom', limit=50) }}" {% if current_limit == 50 %}selected{% endif %}>50</option>
-            </select>
-        </div>
+        
+        <!-- User Profile Section -->
+        {% if user_profile %}
+        <section class="user-profile-section">
+            <div class="user-profile-container">
+                <div class="profile-image-wrapper">
+                    {% if user_profile.profile_image %}
+                    <img src="{{ user_profile.profile_image }}" alt="{{ user_profile.display_name }}" class="profile-image">
+                    {% else %}
+                    <div class="profile-image-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="profile-info">
+                    <a href="{{ user_profile.spotify_url }}" target="_blank" class="profile-name-link">
+                        <h3 class="profile-name">{{ user_profile.display_name }}</h3>
+                    </a>
+                    <div class="profile-followers">
+                        <i class="fas fa-users"></i>
+                        <span>{{ user_profile.followers }} followers</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <section>
+            <div class="count-selector">
+                <label for="item-count">Item Count</label>
+                <select id="item-count" class="count-dropdown" onchange="window.location.href=this.value">
+                    <option value="{{ url_for('custom', limit=5) }}" {% if current_limit == 5 %}selected{% endif %}>5</option>
+                    <option value="{{ url_for('custom', limit=10) }}" {% if current_limit == 10 %}selected{% endif %}>10</option>
+                    <option value="{{ url_for('custom', limit=15) }}" {% if current_limit == 15 %}selected{% endif %}>15</option>
+                    <option value="{{ url_for('custom', limit=25) }}" {% if current_limit == 25 %}selected{% endif %}>25</option>
+                    <option value="{{ url_for('custom', limit=50) }}" {% if current_limit == 50 %}selected{% endif %}>50</option>
+                </select>
+            </div>
+        </section>
 
         <section class="stats-section">
             <div class="section-header">

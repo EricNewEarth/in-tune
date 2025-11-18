@@ -542,6 +542,269 @@ main {
 }
 
 /* ========================================
+   USER PROFILE SECTION
+   ======================================== */
+.user-profile-section {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 1rem;
+}
+
+.user-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.user-profile-container:hover {
+    transform: translateY(-2px);
+}
+
+.profile-image-wrapper {
+    flex-shrink: 0;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--spotify-green);
+    transition: border-color 0.3s ease;
+}
+
+.profile-image:hover {
+    border-color: #1ed760;
+}
+
+.profile-image-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--dark-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--spotify-light);
+    font-size: 3rem;
+    color: var(--spotify-light);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-name-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.profile-name-link:hover .profile-name {
+    color: var(--spotify-green);
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.profile-followers {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--spotify-light);
+    font-size: 1rem;
+}
+
+.profile-followers i {
+    color: var(--spotify-green);
+    font-size: 1rem;
+}
+
+/* Mobile responsive styles for user profile */
+@media (max-width: 768px) {
+    .user-profile-container {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .profile-image,
+    .profile-image-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+    }
+    
+    .profile-name {
+        font-size: 1.4rem;
+    }
+    
+    .profile-followers {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .profile-image,
+    .profile-image-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-info {
+        align-items: center;
+    }
+}
+EOF
+cat /home/claude/static/css/user-profile-styles.css
+
+Output
+/* ========================================
+   USER PROFILE SECTION
+   ======================================== */
+.user-profile-section {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 1rem;
+}
+
+.user-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.user-profile-container:hover {
+    transform: translateY(-2px);
+}
+
+.profile-image-wrapper {
+    flex-shrink: 0;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--spotify-green);
+    transition: border-color 0.3s ease;
+}
+
+.profile-image:hover {
+    border-color: #1ed760;
+}
+
+.profile-image-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--dark-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--spotify-light);
+    font-size: 3rem;
+    color: var(--spotify-light);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-name-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.profile-name-link:hover .profile-name {
+    color: var(--spotify-green);
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.profile-followers {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--spotify-light);
+    font-size: 1rem;
+}
+
+.profile-followers i {
+    color: var(--spotify-green);
+    font-size: 1rem;
+}
+
+/* Mobile responsive styles for user profile */
+@media (max-width: 768px) {
+    .user-profile-container {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .profile-image,
+    .profile-image-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+    }
+    
+    .profile-name {
+        font-size: 1.4rem;
+    }
+    
+    .profile-followers {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .profile-image,
+    .profile-image-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-info {
+        align-items: center;
+    }
+}
+
+/* ========================================
    GRID LAYOUT
    ======================================== */
 .grid-container {

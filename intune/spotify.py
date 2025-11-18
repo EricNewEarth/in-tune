@@ -128,6 +128,30 @@ def refresh_access_token(refresh_token: str):
         print(response.text)
         raise Exception('Failed to refresh access token.')
 
+# Get the current Spotify user's profile information
+def get_user_profile(access_token: str) -> dict:
+
+    user_url = 'https://api.spotify.com/v1/me'
+    headers = { 'Authorization': f'Bearer {access_token}' }
+
+    user_response = requests.get(user_url, headers=headers)
+
+    if user_response.status_code != 200:
+        print(f'Error getting user profile: {user_response.status_code}, {user_response.text}')
+        raise Exception('Failed to get user profile.')
+    
+    user_data = user_response.json()
+
+    profile_info = {
+        'user_id': user_data.get('id'),
+        'display_name': user_data.get('display_name'),
+        'profile_image': user_data.get('images')[0]['url'] if user_data.get('images') else None,
+        'followers': user_data.get('followers', {}).get('total', 0),
+        'spotify_url': user_data.get('external_urls', {}).get('spotify')
+    }
+
+    return profile_info
+
 # Get top artists and tracks for the given time range (simplified for limits ≤ 50)
 def get_top_items(access_token: str, time_range: str, limit=10) -> tuple[dict, dict]:
 

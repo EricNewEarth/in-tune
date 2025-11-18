@@ -61,6 +61,11 @@ def callback():
         session['access_token'] = access_token
         session['refresh_token'] = refresh_token
         session['auth_time'] = time.time()
+
+        # Fetch and store the user's profile information
+        logger.debug('Fetching user profile.')
+        user_profile = spotify.get_user_profile(access_token)
+        session['user_profile'] = user_profile
         
         return redirect(url_for('dashboard', time_range='short_term'))
     except Exception as e:
@@ -105,6 +110,14 @@ def test_login():
     session['refresh_token'] = test_refresh_token
     session['auth_time'] = time.time()
     session['test_mode'] = True
+
+    # Fetch and store user profile for test account
+    try:
+        logger.debug('Fetching test user profile.')
+        user_profile = spotify.get_user_profile(test_access_token)
+        session['user_profile'] = user_profile
+    except Exception as e:
+        logger.warning(f'Could not fetch test user profile: {str(e)}.')
     
     return redirect(url_for('dashboard', time_range='short_term'))
 
@@ -156,6 +169,16 @@ def custom():
         logger.warning('No valid access token found when accessing custom page.')
         return redirect(url_for('index'))
     
+    # Get user profile data from session, or fetch it if not present
+    user_profile = session.get('user_profile')
+    if not user_profile:
+        try:
+            user_profile = spotify.get_user_profile(access_token)
+            session['user_profile'] = user_profile
+        except Exception as e:
+            logger.warning(f'Could not fetch user profile: {str(e)}.')
+            user_profile = None
+    
     # Get limit from query parameter, default to 10
     limit = int(request.args.get('limit', 10))
 
@@ -167,9 +190,10 @@ def custom():
     avg_track_popularity = 0
     
     return render_template('custom.html',
-                          current_limit=limit,
-                          avg_artist_popularity=avg_artist_popularity,
-                          avg_track_popularity=avg_track_popularity)
+                        current_limit=limit,
+                        avg_artist_popularity=avg_artist_popularity,
+                        avg_track_popularity=avg_track_popularity,
+                        user_profile=user_profile)
 
 # Displays main dashboard page with user's Spotify data
 @app.route('/dashboard')
@@ -180,6 +204,16 @@ def dashboard():
     if not access_token:
         logger.warning('No valid access token found when preparing dashboard.')
         return redirect(url_for('index'))
+    
+    # Get user profile data from session, or fetch it if not present
+    user_profile = session.get('user_profile')
+    if not user_profile:
+        try:
+            user_profile = spotify.get_user_profile(access_token)
+            session['user_profile'] = user_profile
+        except Exception as e:
+            logger.warning(f'Could not fetch user profile: {str(e)}.')
+            user_profile = None
     
     # Get time range from query parameter, default to short_term
     time_range = request.args.get('time_range', 'short_term')
@@ -293,7 +327,8 @@ def dashboard():
                             avg_artist_popularity=avg_artist_popularity,
                             avg_track_popularity=avg_track_popularity,
                             current_time_range=time_range,
-                            current_limit=limit)
+                            current_limit=limit,
+                            user_profile=user_profile)
     
     # If there's an error, clear the session and redirect to login flow
     except Exception as e:
