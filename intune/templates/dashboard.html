@@ -141,6 +141,12 @@
             </select>
         </div>
 
+        <div class="refresh-button">
+            <button id="refreshBtn" class="spotify-button refresh-btn">
+                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+            </button>
+        </div>
+
         <h2 class="top-genre">{{ genre_string }}<span class="intune-text">{{ top_genre }}</span>.</h2>
 
         <section class="stats-section">
@@ -270,6 +276,16 @@
         </section>
     </main>
 
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button id="navArrowUp" class="nav-arrow">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <button id="navArrowDown" class="nav-arrow visible">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+
     <div id="playlistModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -321,6 +337,7 @@
     </footer>
 
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 
     </body>
 </html>

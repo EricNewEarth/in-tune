@@ -230,6 +230,16 @@
         </section>
     </main>
 
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button id="navArrowUp" class="nav-arrow">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <button id="navArrowDown" class="nav-arrow visible">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+
     <!-- Custom Item Selection Modal -->
     <div id="customItemModal" class="modal custom-modal">
         <div class="modal-content custom-modal-content">
@@ -297,5 +307,6 @@
 
     <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
     <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
 </body>
 </html>

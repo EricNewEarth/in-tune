@@ -58,340 +58,6 @@ body {
 }
 
 /* ========================================
-   BUTTONS & FORM CONTROLS
-   ======================================== */
-.spotify-button {
-    display: inline-block;
-    background-color: var(--spotify-green);
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    min-width: 200px;
-}
-
-.spotify-button:hover {
-    background-color: #1ed760;
-    transform: translateY(-2px);
-}
-
-.spotify-button:disabled {
-    background-color: #666;
-    cursor: not-allowed;
-    transform: none;
-    opacity: 0.7;
-}
-
-.cancel-button {
-    background-color: transparent;
-    border: 2px solid var(--spotify-light);
-    color: var(--spotify-light);
-    padding: 0.6rem 1.5rem;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.cancel-button:hover {
-    background-color: var(--spotify-light);
-    color: var(--spotify-black);
-}
-
-.back-button {
-    display: inline-block;
-    margin-top: 2rem;
-    background-color: var(--spotify-green);
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.back-button:hover {
-    background-color: #1ed760;
-    transform: translateY(-2px);
-}
-
-/* Count Selector Dropdown */
-.count-selector {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 2rem;
-    gap: 0.5rem;
-}
-
-.count-selector label {
-    color: var(--spotify-light);
-    font-weight: 500;
-}
-
-.count-dropdown {
-    background-color: var(--card-bg);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    border: 2px solid transparent;
-    outline: none;
-    font-weight: 500;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.7rem center;
-    background-size: 1em;
-    padding-right: 2rem;
-}
-
-.count-dropdown:hover {
-    background-color: #333;
-    transform: translateY(-2px);
-}
-
-.count-dropdown:focus {
-    border: 2px solid var(--spotify-green);
-}
-
-/* Time Range Selector */
-.time-range-selector {
-    display: flex;
-    justify-content: center;
-    margin: 1rem 0 2rem;
-    gap: 1rem;
-}
-
-.time-range-button {
-    background-color: var(--card-bg);
-    color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-}
-
-.time-range-button:hover {
-    background-color: #333;
-    transform: translateY(-2px);
-}
-
-.time-range-button.active {
-    background-color: var(--spotify-green);
-    color: white;
-}
-
-/* ========================================
-   HEADER & NAVIGATION
-   ======================================== */
-header {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.header-content h2 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    z-index: 1;
-}
-
-.logo-image {
-    height: 100px;
-    width: auto;
-    margin-right: 10px;
-}
-
-/* Hamburger Menu */
-.hamburger-menu {
-    display: flex;
-    align-items: center;
-    z-index: 1;
-}
-
-.hamburger-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    transition: all 0.3s ease;
-}
-
-.hamburger-line {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 2px 0;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.hamburger-button:hover .hamburger-line {
-    background-color: var(--spotify-green);
-}
-
-.hamburger-button.active .hamburger-line:nth-child(1) {
-    transform: rotate(45deg) translate(6px, 6px);
-}
-
-.hamburger-button.active .hamburger-line:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger-button.active .hamburger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(6px, -6px);
-}
-
-/* Side Menu */
-.side-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 100%;
-    height: 100vh;
-    z-index: 9999;
-    transition: right 0.3s ease;
-}
-
-.side-menu.open {
-    right: 0;
-}
-
-.side-menu-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(2px);
-}
-
-.side-menu-content {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    background-color: var(--spotify-black);
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-}
-
-.side-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--card-bg);
-}
-
-.side-menu-header h3 {
-    color: white;
-    font-size: 1.3rem;
-    margin: 0;
-}
-
-.close-menu {
-    background: none;
-    border: none;
-    color: var(--spotify-light);
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    transition: color 0.3s ease;
-}
-
-.close-menu:hover {
-    color: white;
-}
-
-.side-menu-nav {
-    flex: 1;
-    padding: 1rem 0;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-}
-
-.menu-item:hover {
-    background-color: var(--card-bg);
-    border-left-color: var(--spotify-green);
-}
-
-.menu-item.active {
-    background-color: var(--card-bg);
-    border-left-color: var(--spotify-green);
-}
-
-.menu-item i {
-    margin-right: 1rem;
-    width: 20px;
-    text-align: center;
-    color: var(--spotify-light);
-}
-
-.menu-item span {
-    font-weight: 500;
-}
-
-.menu-item:hover i,
-.menu-item.active i {
-    color: var(--spotify-green);
-}
-
-/* ========================================
    LANDING PAGE
    ======================================== */
 .landing-container {
@@ -423,7 +89,6 @@ header {
     color: var(--spotify-light);
 }
 
-/* Login Button */
 #loginButton {
     min-width: 220px;
     transition: all 0.3s ease;
@@ -541,272 +206,6 @@ main {
     position: relative;
 }
 
-/* ========================================
-   USER PROFILE SECTION
-   ======================================== */
-.user-profile-section {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0 1rem;
-}
-
-.user-profile-container {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    background-color: var(--card-bg);
-    padding: 1.5rem;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-}
-
-.user-profile-container:hover {
-    transform: translateY(-2px);
-}
-
-.profile-image-wrapper {
-    flex-shrink: 0;
-}
-
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--spotify-green);
-    transition: border-color 0.3s ease;
-}
-
-.profile-image:hover {
-    border-color: #1ed760;
-}
-
-.profile-image-placeholder {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-color: var(--dark-gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid var(--spotify-light);
-    font-size: 3rem;
-    color: var(--spotify-light);
-}
-
-.profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.profile-name-link {
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.profile-name-link:hover .profile-name {
-    color: var(--spotify-green);
-}
-
-.profile-name {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: white;
-    margin: 0;
-    transition: color 0.3s ease;
-}
-
-.profile-followers {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--spotify-light);
-    font-size: 1rem;
-}
-
-.profile-followers i {
-    color: var(--spotify-green);
-    font-size: 1rem;
-}
-
-/* Mobile responsive styles for user profile */
-@media (max-width: 768px) {
-    .user-profile-container {
-        gap: 1rem;
-        padding: 1rem;
-    }
-    
-    .profile-image,
-    .profile-image-placeholder {
-        width: 100px;
-        height: 100px;
-        font-size: 2rem;
-    }
-    
-    .profile-name {
-        font-size: 1.4rem;
-    }
-    
-    .profile-followers {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .user-profile-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .profile-image,
-    .profile-image-placeholder {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .profile-info {
-        align-items: center;
-    }
-}
-EOF
-cat /home/claude/static/css/user-profile-styles.css
-
-Output
-/* ========================================
-   USER PROFILE SECTION
-   ======================================== */
-.user-profile-section {
-    display: flex;
-    justify-content: center;
-    margin: 2rem 0 1rem;
-}
-
-.user-profile-container {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    background-color: var(--card-bg);
-    padding: 1.5rem;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
-}
-
-.user-profile-container:hover {
-    transform: translateY(-2px);
-}
-
-.profile-image-wrapper {
-    flex-shrink: 0;
-}
-
-.profile-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--spotify-green);
-    transition: border-color 0.3s ease;
-}
-
-.profile-image:hover {
-    border-color: #1ed760;
-}
-
-.profile-image-placeholder {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-color: var(--dark-gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid var(--spotify-light);
-    font-size: 3rem;
-    color: var(--spotify-light);
-}
-
-.profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.profile-name-link {
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.profile-name-link:hover .profile-name {
-    color: var(--spotify-green);
-}
-
-.profile-name {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: white;
-    margin: 0;
-    transition: color 0.3s ease;
-}
-
-.profile-followers {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--spotify-light);
-    font-size: 1rem;
-}
-
-.profile-followers i {
-    color: var(--spotify-green);
-    font-size: 1rem;
-}
-
-/* Mobile responsive styles for user profile */
-@media (max-width: 768px) {
-    .user-profile-container {
-        gap: 1rem;
-        padding: 1rem;
-    }
-    
-    .profile-image,
-    .profile-image-placeholder {
-        width: 100px;
-        height: 100px;
-        font-size: 2rem;
-    }
-    
-    .profile-name {
-        font-size: 1.4rem;
-    }
-    
-    .profile-followers {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .user-profile-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .profile-image,
-    .profile-image-placeholder {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .profile-info {
-        align-items: center;
-    }
-}
-
-/* ========================================
-   GRID LAYOUT
-   ======================================== */
 .grid-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -815,7 +214,506 @@ Output
 }
 
 /* ========================================
-   DASHBOARD CARDS (Regular Cards)
+   HEADER & NAVIGATION
+   ======================================== */
+header {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-content h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.logo-image {
+    height: 100px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.hamburger-menu {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+}
+
+.hamburger-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-line {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 2px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger-button:hover .hamburger-line {
+    background-color: var(--spotify-green);
+}
+
+.hamburger-button.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-button.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-button.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    transition: right 0.3s ease;
+}
+
+.side-menu.open {
+    right: 0;
+}
+
+.side-menu-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.side-menu-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: var(--spotify-black);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.side-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--card-bg);
+}
+
+.side-menu-header h3 {
+    color: white;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.close-menu {
+    background: none;
+    border: none;
+    color: var(--spotify-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.close-menu:hover {
+    color: white;
+}
+
+.side-menu-nav {
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.menu-item:hover {
+    background-color: var(--card-bg);
+    border-left-color: var(--spotify-green);
+}
+
+.menu-item.active {
+    background-color: var(--card-bg);
+    border-left-color: var(--spotify-green);
+}
+
+.menu-item i {
+    margin-right: 1rem;
+    width: 20px;
+    text-align: center;
+    color: var(--spotify-light);
+}
+
+.menu-item span {
+    font-weight: 500;
+}
+
+.menu-item:hover i,
+.menu-item.active i {
+    color: var(--spotify-green);
+}
+
+.nav-arrows {
+    position: fixed;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-arrow {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(128, 128, 128, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
+}
+
+.nav-arrow.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.nav-arrow:hover {
+    background-color: rgba(128, 128, 128, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.nav-arrow i {
+    pointer-events: none;
+}
+
+/* ========================================
+   BUTTONS & FORM CONTROLS
+   ======================================== */
+.spotify-button {
+    display: inline-block;
+    background-color: var(--spotify-green);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    min-width: 200px;
+}
+
+.spotify-button:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+}
+
+.spotify-button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
+}
+
+.cancel-button {
+    background-color: transparent;
+    border: 2px solid var(--spotify-light);
+    color: var(--spotify-light);
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: var(--spotify-light);
+    color: var(--spotify-black);
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 2rem;
+    background-color: var(--spotify-green);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #1ed760;
+    transform: translateY(-2px);
+}
+
+.count-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 2rem;
+    gap: 0.5rem;
+}
+
+.count-selector label {
+    color: var(--spotify-light);
+    font-weight: 500;
+}
+
+.count-dropdown {
+    background-color: var(--card-bg);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    outline: none;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 1em;
+    padding-right: 2rem;
+}
+
+.count-dropdown:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.count-dropdown:focus {
+    border: 2px solid var(--spotify-green);
+}
+
+.time-range-selector {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 2rem;
+    gap: 1rem;
+}
+
+.time-range-button {
+    background-color: var(--card-bg);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.time-range-button:hover {
+    background-color: #333;
+    transform: translateY(-2px);
+}
+
+.time-range-button.active {
+    background-color: var(--spotify-green);
+    color: white;
+}
+
+.refresh-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 2rem;
+}
+
+.refresh-btn {
+    min-width: 150px;
+    padding: 0.8rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.refresh-btn i {
+    transition: transform 0.3s ease;
+}
+
+.refresh-btn:hover i {
+    transform: rotate(180deg);
+}
+
+.refresh-btn.refreshing {
+    opacity: 0.9;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.refresh-btn.refreshing i {
+    animation: spin 1s linear infinite;
+}
+
+/* ========================================
+   USER PROFILE SECTION
+   ======================================== */
+.user-profile-section {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 1rem;
+}
+
+.user-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.user-profile-container:hover {
+    transform: translateY(-2px);
+}
+
+.profile-image-wrapper {
+    flex-shrink: 0;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--spotify-green);
+    transition: border-color 0.3s ease;
+}
+
+.profile-image:hover {
+    border-color: #1ed760;
+}
+
+.profile-image-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--dark-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--spotify-light);
+    font-size: 3rem;
+    color: var(--spotify-light);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-name-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.profile-name-link:hover .profile-name {
+    color: var(--spotify-green);
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.profile-followers {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--spotify-light);
+    font-size: 1rem;
+}
+
+.profile-followers i {
+    color: var(--spotify-green);
+    font-size: 1rem;
+}
+
+/* ========================================
+   DASHBOARD CARDS
    ======================================== */
 .card {
     background-color: var(--card-bg);
@@ -868,7 +766,6 @@ Output
     text-overflow: ellipsis;
 }
 
-/* Dashboard Placeholder Cards - Limited Interaction */
 .dashboard-placeholder-card {
     opacity: 0.3;
     pointer-events: none;
@@ -879,7 +776,7 @@ Output
 }
 
 /* ========================================
-   CUSTOM PAGE CARDS (Interactive Cards)
+   CUSTOM PAGE CARDS
    ======================================== */
 .custom-placeholder-card {
     opacity: 0.6;
@@ -895,7 +792,6 @@ Output
     transform: translateY(-5px);
 }
 
-/* Dark overlay on hover for custom cards */
 .custom-placeholder-card::before {
     content: '';
     position: absolute;
@@ -914,7 +810,6 @@ Output
     background-color: rgba(0, 0, 0, 0.75);
 }
 
-/* Add button for custom cards only */
 .custom-placeholder-card .card-add-btn {
     position: absolute;
     top: 50%;
@@ -946,18 +841,16 @@ Output
     transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* Show add button on hover for custom cards */
 .custom-placeholder-card:hover .card-add-btn {
     opacity: 1;
     visibility: visible;
 }
 
-/* FIXED: Delete button for custom cards - positioned in top right with red color */
 .card-delete-btn {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
-    background-color: rgba(220, 38, 127, 0.9); /* Red color */
+    background-color: rgba(220, 38, 127, 0.9);
     border: none;
     border-radius: 50%;
     width: 32px;
@@ -969,24 +862,22 @@ Output
     justify-content: center;
     font-size: 0.9rem;
     transition: all 0.3s ease;
-    z-index: 20; /* Higher z-index to appear on top */
+    z-index: 20;
     opacity: 0;
     transform: scale(0.8);
 }
 
 .card-delete-btn:hover {
-    background-color: rgba(220, 38, 127, 1); /* Darker red on hover */
+    background-color: rgba(220, 38, 127, 1);
     transform: scale(1.1);
 }
 
-/* Show delete button on populated custom cards */
 .card:not(.custom-placeholder-card):hover .card-delete-btn {
     opacity: 1;
     transform: scale(1);
     display: flex;
 }
 
-/* Custom card content styling */
 .custom-placeholder-card .artist-name,
 .custom-placeholder-card .track-name {
     color: var(--spotify-light);
@@ -1024,7 +915,7 @@ Output
 }
 
 /* ========================================
-   CARD CONTENT ELEMENTS (Shared)
+   CARD CONTENT ELEMENTS
    ======================================== */
 .artist-name,
 .track-name {
@@ -1371,12 +1262,10 @@ Output
     padding: 0.8rem 2rem;
 }
 
-/* Playlist Modal Error Validation Styles */
-
 .modal-body input[type="text"].error {
-    border-color: #dc2626 !important; /* Red border */
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important; /* Red glow */
-    background-color: rgba(220, 38, 38, 0.05) !important; /* Subtle red background */
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important; 
+    background-color: rgba(220, 38, 38, 0.05) !important;
 }
 
 .modal-body input[type="text"].error:focus {
@@ -1384,7 +1273,6 @@ Output
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3) !important;
 }
 
-/* Error message styling */
 .error-message {
     color: #dc2626;
     font-size: 0.875rem;
@@ -1396,13 +1284,12 @@ Output
 }
 
 .error-message::before {
-    content: "\f071"; /* FontAwesome exclamation triangle */
+    content: "\f071";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 0.875rem;
 }
 
-/* Shake animation for input */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
@@ -1413,7 +1300,6 @@ Output
     animation: shake 0.5s ease-in-out;
 }
 
-/* Slide down animation for error message */
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -1425,12 +1311,10 @@ Output
     }
 }
 
-/* Error state hover effects */
 .modal-body input[type="text"].error::placeholder {
     color: rgba(220, 38, 38, 0.6);
 }
 
-/* Ensure error styling overrides focus states */
 .modal-body input[type="text"].error:focus::placeholder {
     color: rgba(220, 38, 38, 0.7);
 }
@@ -1500,7 +1384,6 @@ Output
     overflow: hidden;
 }
 
-/* Modal Search Section*/
 .modal-search-section {
     padding: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1515,7 +1398,7 @@ Output
 
 .modal-search-input {
     width: 100%;
-    padding: 1rem 3rem 1rem 3rem; /* Fixed: proper padding for icon space */
+    padding: 1rem 3rem 1rem 3rem;
     background-color: var(--dark-gray);
     border: 2px solid transparent;
     border-radius: 8px;
@@ -1523,7 +1406,7 @@ Output
     font-size: 1rem;
     outline: none;
     transition: all 0.3s ease;
-    box-sizing: border-box; /* Ensure consistent sizing */
+    box-sizing: border-box;
 }
 
 .modal-search-input:focus {
@@ -1539,14 +1422,13 @@ Output
     position: absolute;
     left: 1rem;
     top: 50%;
-    transform: translateY(-50%); /* Center the icon vertically */
+    transform: translateY(-50%);
     color: var(--spotify-light);
     font-size: 1rem;
     z-index: 10;
-    pointer-events: none; /* Prevent icon from interfering with input */
+    pointer-events: none;
 }
 
-/* Modal Results Section */
 .modal-results-section {
     flex: 1;
     display: flex;
@@ -1572,7 +1454,6 @@ Output
     margin-bottom: 1rem;
 }
 
-/* Modal placeholder states */
 .modal-no-search,
 .modal-no-selection {
     text-align: center;
@@ -1593,7 +1474,6 @@ Output
     font-size: 1rem;
 }
 
-/* Modal Search Result Items */
 .modal-result-item {
     display: flex;
     align-items: center;
@@ -1667,7 +1547,6 @@ Output
     flex-shrink: 0;
 }
 
-/* Modal Selection Section */
 .modal-selection-section {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(0, 0, 0, 0.2);
@@ -2304,6 +2183,7 @@ footer a:hover {
 /* ========================================
    RESPONSIVE DESIGN
    ======================================== */
+
 @media (max-width: 1200px) {
     .grid-container {
         grid-template-columns: repeat(4, 1fr);
@@ -2315,7 +2195,6 @@ footer a:hover {
         grid-template-columns: repeat(3, 1fr);
     }
     
-    /* About page - start stacking on tablets */
     .about-section {
         flex-direction: column;
         text-align: center;
@@ -2354,22 +2233,52 @@ footer a:hover {
 }
 
 @media (max-width: 768px) {
-    /* HEADER OPTIMIZATIONS FOR MOBILE */
+
+    .user-profile-container {
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .profile-image,
+    .profile-image-placeholder {
+        width: 100px;
+        height: 100px;
+        font-size: 2rem;
+    }
+    
+    .profile-name {
+        font-size: 1.4rem;
+    }
+    
+    .profile-followers {
+        font-size: 0.9rem;
+    }
+
+    .nav-arrows {
+        right: 1rem;
+    }
+    
+    .nav-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
     .header-content {
         padding: 0 1rem;
         position: relative;
     }
     
     .header-content h2 {
-        font-size: 1.1rem; /* Reduced from 1.5rem */
-        max-width: calc(100% - 200px); /* Leave space for logo and menu */
+        font-size: 1.1rem;
+        max-width: calc(100% - 200px);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        position: static; /* Remove absolute positioning */
-        transform: none; /* Remove transform */
-        text-align: left; /* Align with logo */
-        margin-left: 1rem; /* Space after logo */
+        position: static;
+        transform: none;
+        text-align: left;
+        margin-left: 1rem;
     }
     
     .logo-container {
@@ -2377,7 +2286,7 @@ footer a:hover {
     }
     
     .logo-image {
-        height: 60px; /* Reduced from 100px */
+        height: 60px;
         margin-right: 0;
     }
     
@@ -2386,7 +2295,6 @@ footer a:hover {
         margin-left: auto;
     }
     
-    /* Adjust header layout to prevent overflow */
     .header-content {
         display: flex;
         align-items: center;
@@ -2430,6 +2338,12 @@ footer a:hover {
 
     .count-selector {
         margin: 1rem 0 2rem;
+    }
+
+    .refresh-btn {
+        min-width: 120px;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
     }
 
     .modal-content {
@@ -2534,7 +2448,6 @@ footer a:hover {
         margin: 2rem 0;
     }
 
-    /* About page mobile optimizations */
     .about-container {
         padding: 0 0.5rem;
     }
@@ -2574,16 +2487,42 @@ footer a:hover {
 }
 
 @media (max-width: 480px) {
-    /* FURTHER HEADER OPTIMIZATIONS FOR VERY SMALL SCREENS */
+
+    .user-profile-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .profile-image,
+    .profile-image-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-info {
+        align-items: center;
+    }
+
+    .nav-arrows {
+        right: 0.5rem;
+    }
+    
+    .nav-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
     .header-content h2 {
-        font-size: 0.9rem; /* Further reduced */
-        max-width: calc(100% - 160px); /* Adjusted for smaller logo */
-        white-space: normal; /* Allow text to wrap */
-        line-height: 1.3; /* Better line spacing for wrapped text */
+        font-size: 0.9rem;
+        max-width: calc(100% - 160px);
+        white-space: normal;
+        line-height: 1.3;
     }
     
     .logo-image {
-        height: 50px; /* Further reduced */
+        height: 50px;
     }
 
     .landing-content h1 {
@@ -2592,6 +2531,15 @@ footer a:hover {
 
     .main-logo {
         height: 180px;
+    }
+
+    .refresh-button {
+        margin: 0 0 1.5rem;
+    }
+    
+    .refresh-btn {
+        width: 100%;
+        max-width: 280px;
     }
 
     .grid-container {
@@ -2626,7 +2574,6 @@ footer a:hover {
         font-size: 1.5rem;
     }
 
-    /* About page very small screen optimizations */
     .about-section {
         padding: 1rem;
         margin-bottom: 1rem;
@@ -2679,7 +2626,6 @@ footer a:hover {
         justify-content: center;
     }
 
-    /* Changelog mobile optimizations */
     .version-header {
         flex-direction: column;
         align-items: flex-start;

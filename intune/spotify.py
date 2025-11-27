@@ -205,7 +205,7 @@ def parse_artists_data(artists_data: dict) -> tuple[pd.DataFrame, int]:
             row = [id, name, genres, popularity, formatted_followers, link, image]
             final_artists.loc[len(final_artists)] = row
 
-        total_artists = artists_data.get('total', 0)
+        total_artists = f'{artists_data.get("total", 0):,}'
     except Exception as e:
         print(f'Error when parsing artist data: {e}')
         raise e
@@ -241,7 +241,7 @@ def parse_tracks_data(tracks_data: dict) -> tuple[pd.DataFrame, int]:
             row = [id, name, artists, formatted_release_date, popularity, link, image]
             final_tracks.loc[len(final_tracks)] = row
 
-        total_tracks = tracks_data.get('total', 0)
+        total_tracks = f'{tracks_data.get("total", 0):,}'
     except Exception as e:
         print(f'Error when parsing track data: {e}')
         raise e

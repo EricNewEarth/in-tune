@@ -60,6 +60,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Refresh button event listener
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            refreshPage();
+        });
+    }
+
     // Open playlist creation modal
     createPlaylistBtn.addEventListener('click', function() {
         playlistModal.style.display = 'block';
@@ -207,6 +216,31 @@ document.addEventListener('DOMContentLoaded', function() {
             showLoadingOverlay();
             // Let the navigation proceed normally via the onchange handler
         });
+    }
+
+    function refreshPage() {
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        if (!refreshBtn) return;
+
+        // Prevent mutliple clicks
+        if (refreshBtn.classList.contains('refreshing')) {
+            return;
+        }
+
+        refreshBtn.classList.add('refreshing');
+        refreshBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Refreshing...';
+        refreshBtn.disabled = true;
+
+        // Show loading overlay
+        showLoadingOverlay();
+
+        // Get current URL params to preserve state
+        const urlParams = new URLSearchParams(window.location.search);
+        const timeRange = urlParams.get('time_range') || 'short_term';
+        const limit = urlParams.get('limit') || '10';
+
+        window.location.href = `/dashboard?time_range=${timeRange}&limit=${limit}`;
     }
 
     // Create playlist function with validation

@@ -408,7 +408,9 @@ function saveModalSelection() {
     populateCard(targetCard, currentSelection);
     
     // Update average popularity scores
-    updatePopularityAverages();
+    setTimeout(() => {
+        updatePopularityAverages();
+    }, 0);
     
     // Close modal
     closeCustomModal();
@@ -648,24 +650,37 @@ function clearCard(card) {
 
 // Function to update popularity averages
 function updatePopularityAverages() {
+    console.log('Updating popularity averages...');
+    
     // Get all populated artist and track cards
     const artistCards = document.querySelectorAll('[data-card-type="artist"]:not(.placeholder-card)');
     const trackCards = document.querySelectorAll('[data-card-type="track"]:not(.placeholder-card)');
+    
+    console.log('Artist cards found:', artistCards.length);
+    console.log('Track cards found:', trackCards.length);
     
     // Calculate artist popularity average
     let artistPopularitySum = 0;
     let artistCount = 0;
     
     artistCards.forEach(card => {
-        const popularityElement = card.querySelector('.stat span');
-        if (popularityElement) {
-            const popularityText = popularityElement.textContent;
-            const popularity = parseInt(popularityText.split('/')[0]);
-            if (!isNaN(popularity)) {
-                artistPopularitySum += popularity;
-                artistCount++;
+        // Get all stat elements and find the one with the fire icon (popularity)
+        const stats = card.querySelectorAll('.stat');
+        stats.forEach(stat => {
+            const icon = stat.querySelector('i.fa-fire');
+            if (icon) {
+                const popularityElement = stat.querySelector('span');
+                if (popularityElement) {
+                    const popularityText = popularityElement.textContent;
+                    const popularity = parseInt(popularityText.split('/')[0]);
+                    console.log('Found artist popularity:', popularity);
+                    if (!isNaN(popularity) && popularity > 0) {
+                        artistPopularitySum += popularity;
+                        artistCount++;
+                    }
+                }
             }
-        }
+        });
     });
     
     // Calculate track popularity average
@@ -673,31 +688,58 @@ function updatePopularityAverages() {
     let trackCount = 0;
     
     trackCards.forEach(card => {
-        const popularityElement = card.querySelector('.stat span');
-        if (popularityElement) {
-            const popularityText = popularityElement.textContent;
-            const popularity = parseInt(popularityText.split('/')[0]);
-            if (!isNaN(popularity)) {
-                trackPopularitySum += popularity;
-                trackCount++;
+        // Get all stat elements and find the one with the fire icon (popularity)
+        const stats = card.querySelectorAll('.stat');
+        stats.forEach(stat => {
+            const icon = stat.querySelector('i.fa-fire');
+            if (icon) {
+                const popularityElement = stat.querySelector('span');
+                if (popularityElement) {
+                    const popularityText = popularityElement.textContent;
+                    const popularity = parseInt(popularityText.split('/')[0]);
+                    console.log('Found track popularity:', popularity);
+                    if (!isNaN(popularity) && popularity > 0) {
+                        trackPopularitySum += popularity;
+                        trackCount++;
+                    }
+                }
             }
-        }
+        });
     });
     
-    // Update the displayed averages
-    const artistAvgElement = document.querySelector('.stats-section:first-of-type .avg-popularity');
-    const trackAvgElement = document.querySelector('.stats-section:last-of-type .avg-popularity');
+    console.log('Artist sum:', artistPopularitySum, 'Count:', artistCount);
+    console.log('Track sum:', trackPopularitySum, 'Count:', trackCount);
+    
+    // FIXED: Use better selectors
+    // Find the avg-popularity element in the section containing the artistGrid
+    const artistGrid = document.getElementById('artistGrid');
+    const artistSection = artistGrid ? artistGrid.closest('.stats-section') : null;
+    const artistAvgElement = artistSection ? artistSection.querySelector('.avg-popularity') : null;
+    
+    // Find the avg-popularity element in the section containing the trackGrid
+    const trackGrid = document.getElementById('trackGrid');
+    const trackSection = trackGrid ? trackGrid.closest('.stats-section') : null;
+    const trackAvgElement = trackSection ? trackSection.querySelector('.avg-popularity') : null;
+    
+    console.log('Artist avg element found:', !!artistAvgElement);
+    console.log('Track avg element found:', !!trackAvgElement);
     
     if (artistAvgElement) {
         const avgArtistPopularity = artistCount > 0 ? Math.round((artistPopularitySum / artistCount) * 10) / 10 : 0;
         artistAvgElement.innerHTML = `<i class="fas fa-fire"></i> Avg Top Artist Popularity: ${avgArtistPopularity}/100
             <span class="tooltip-text">The lower the popularity, the more niche the artist!</span>`;
+        console.log('Updated artist average to:', avgArtistPopularity);
+    } else {
+        console.error('ERROR: Could not find artist avg element!');
     }
     
     if (trackAvgElement) {
         const avgTrackPopularity = trackCount > 0 ? Math.round((trackPopularitySum / trackCount) * 10) / 10 : 0;
         trackAvgElement.innerHTML = `<i class="fas fa-fire"></i> Avg Top Track Popularity: ${avgTrackPopularity}/100
             <span class="tooltip-text">The lower the popularity, the more niche the track!</span>`;
+        console.log('Updated track average to:', avgTrackPopularity);
+    } else {
+        console.error('ERROR: Could not find track avg element!');
     }
 }
 
