@@ -4,7 +4,7 @@ import pandas as pd
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 
-def create_share_image(final_artists: pd.DataFrame, final_tracks: pd.DataFrame, total_artists: int, total_tracks: int) -> BytesIO:
+def create_share_image(final_artists: pd.DataFrame, final_tracks: pd.DataFrame, total_artists: int, total_tracks: int, time_range: str = 'short_term') -> BytesIO:
 
     width, height = 1080, 1920
     image = Image.new('RGB', (width, height), color='#191414')
@@ -48,9 +48,23 @@ def create_share_image(final_artists: pd.DataFrame, final_tracks: pd.DataFrame, 
         image.paste(logo, (25, 25), logo if logo.mode == 'RGBA' else None)
     except Exception as e:
         print(f'Could not load logo: {e}')
+
+    # Determine header text and font size based on time range
+    if time_range == 'short_term':
+        header_text = 'My Last Month of Listening'
+        header_font = title_font
+    elif time_range == 'medium_term':
+        header_text = 'My Last 6 Months of Listening'
+        header_font = section_font
+    elif time_range == 'long_term':
+        header_text = 'My Last Year of Listening'
+        header_font = title_font
+    else:
+        header_text = 'My Top Listening'
+        header_font = title_font
     
     # Header section
-    draw.text((540, 100), 'My Last Month of Listening', font=title_font, fill=white, anchor='mm')
+    draw.text((540, 100), header_text, font=header_font, fill=white, anchor='mm')
     
     # Top artists section
     y_offset = 215

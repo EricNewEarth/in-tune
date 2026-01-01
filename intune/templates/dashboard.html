@@ -107,13 +107,13 @@
         <section class="stats-section">
             <div class="share-container">
                 <button id="shareStoryBtn" class="spotify-button share-btn" onclick="shareStory()">
-                    <i class="fas fa-share"></i> Share Your Last Month
+                    <i class="fas fa-share"></i> Share Your Top Items
                 </button>
 
                 <!-- Firefox/fallback download button (hidden by default) -->
-                <a id="downloadStoryBtn" href="{{ url_for('generate_story') }}" 
+                <a id="downloadStoryBtn" href="{{ url_for('generate_story', time_range=current_time_range) }}" 
                 class="spotify-button share-btn" download onclick="showDownloadSpinner(this)" style="display: none;">
-                    <i class="fas fa-download"></i> Download Your Last Month
+                    <i class="fas fa-download"></i> Download Your Top Items
                 </a>
             </div>
         </section>

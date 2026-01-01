@@ -372,6 +372,7 @@ def create_playlist():
         logger.error(f'Error creating playlist: {str(e)}.')
         return jsonify({'success': False, 'error': str(e)}), 500
 
+# Route to handle the generation of a shareable story image
 @app.route('/generate-story')
 def generate_story():
     
@@ -380,13 +381,16 @@ def generate_story():
         return redirect(url_for('index'))
     
     try:
+        # Get time range from query parameter, default to short_term
+        time_range = request.args.get('time_range', 'short_term')
+
         # Get the user's top artists and tracks for the past month
-        artists_data, tracks_data = spotify.get_top_items(access_token, 'short_term', 5)
+        artists_data, tracks_data = spotify.get_top_items(access_token, time_range, 5)
         final_artists, total_artists = spotify.parse_artists_data(artists_data)
         final_tracks, total_tracks = spotify.parse_tracks_data(tracks_data)
 
         # Generate story image
-        img_buffer = image_generator.create_share_image(final_artists, final_tracks, total_artists, total_tracks)
+        img_buffer = image_generator.create_share_image(final_artists, final_tracks, total_artists, total_tracks, time_range)
 
         # Set headers for sharing and downloading using Web Share API
         user_agent = request.headers.get('User-Agent', '')
@@ -427,6 +431,7 @@ def generate_story():
         logger.error(f'Error generating story: {str(e)}.')
         return render_template('error.html', error=str(e))
 
+# Route to handle the search functionality on the custom dashboard page
 @app.route('/api/search', methods=['POST'])
 def search_spotify():
     logger.debug('Received search request.')

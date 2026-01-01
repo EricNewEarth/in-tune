@@ -309,30 +309,49 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Browser detection:', { isFirefox, isMobile, hasWebShare, hasFileShare });
     
+    // Get current time range from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const timeRange = urlParams.get('time_range') || 'short_term';
+    
+    // Determine button text based on time range
+    let shareText, downloadText;
+    if (timeRange === 'short_term') {
+        shareText = 'Share Your Last Month';
+        downloadText = 'Download Your Last Month';
+    } else if (timeRange === 'medium_term') {
+        shareText = 'Share Your Last 6 Months';
+        downloadText = 'Download Your Last 6 Months';
+    } else if (timeRange === 'long_term') {
+        shareText = 'Share Your Last Year';
+        downloadText = 'Download Your Last Year';
+    } else {
+        shareText = 'Share Your Top Items';
+        downloadText = 'Download Your Top Items';
+    }
+    
     if (isFirefox) {
         // Firefox - always show download option
         shareBtn.style.display = 'none';
         downloadBtn.style.display = 'inline-block';
-        helpText.style.display = 'block';
         
         // Update button text for Firefox
-        downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download Your Last Month';
+        downloadBtn.innerHTML = `<i class="fas fa-download"></i> ${downloadText}`;
         
     } else if (hasFileShare) {
         // Modern browsers with file sharing support
         shareBtn.style.display = 'inline-block';
-        shareBtn.innerHTML = '<i class="fas fa-share"></i> Share Your Last Month';
+        shareBtn.innerHTML = `<i class="fas fa-share"></i> ${shareText}`;
         
     } else if (hasWebShare) {
         // Browsers with Web Share API but no file support
         shareBtn.style.display = 'inline-block';
-        shareBtn.innerHTML = '<i class="fas fa-share"></i> Share Your Last Month';
+        shareBtn.innerHTML = `<i class="fas fa-share"></i> ${shareText}`;
         
     } else {
         // No Web Share API support - show download
         shareBtn.style.display = 'none';
         downloadBtn.style.display = 'inline-block';
-        downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download Your Last Month';
+        downloadBtn.innerHTML = `<i class="fas fa-download"></i> ${downloadText}`;
     }
 });
 
@@ -352,14 +371,21 @@ async function shareStory() {
 
         // Firefox fallback - redirect to download
         if (isFirefox) {
-            window.location.href = '/generate-story';
+            // Get current time range from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const timeRange = urlParams.get('time_range') || 'short_term';
+            window.location.href = `/generate-story?time_range=${timeRange}`;
             btn.innerHTML = originalText;
             btn.disabled = false;
             return;
         }
         
+        // Get current time range from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const timeRange = urlParams.get('time_range') || 'short_term';
+        
         // Generate the story image
-        const response = await fetch('/generate-story');
+        const response = await fetch(`/generate-story?time_range=${timeRange}`);
         if (!response.ok) throw new Error('Failed to generate story');
         
         const blob = await response.blob();
@@ -376,7 +402,7 @@ async function shareStory() {
 
             await navigator.share({
                 title: 'My InTune Listening',
-                text: 'Check out my top artists and tracks this month!',
+                text: 'Check out my top artists and tracks!',
                 files: [file]
             });
 
@@ -384,7 +410,7 @@ async function shareStory() {
             // Fallback text/URL share
             await navigator.share({
                 title: 'My InTune Listening',
-                text: 'Find out your top artists and tracks this month using:',
+                text: 'Find out your top artists and tracks using:',
                 url: window.location.origin
             });
 
@@ -420,11 +446,15 @@ async function shareStory() {
             return;
         } else if (error.name == 'NotSupportedError') {
             showInstructions('Sharing not available on this browser, downloading your share image...')
-            window.location.href = '/generate-story';
+            const urlParams = new URLSearchParams(window.location.search);
+            const timeRange = urlParams.get('time_range') || 'short_term';
+            window.location.href = `/generate-story?time_range=${timeRange}`;
         } else {
             // For all other errors, show download option
             showInstructions('Sharing failed, downloading your share image instead...');
-            window.location.href = '/generate-story';
+            const urlParams = new URLSearchParams(window.location.search);
+            const timeRange = urlParams.get('time_range') || 'short_term';
+            window.location.href = `/generate-story?time_range=${timeRange}`;
         }
     }
 }
