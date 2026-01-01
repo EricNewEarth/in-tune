@@ -302,8 +302,14 @@
             <a href="/terms">Privacy Policy & Terms of Service</a>
         </div>
         <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
-        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
 
     <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
     <script src="{{ url_for('static', filename='js/custom.js') }}"></script>

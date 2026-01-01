@@ -71,6 +71,22 @@
     <div class="container">
         <div class="changelog-content">
 
+            <!-- Version 2.2.1 -->
+            <div class="changelog-entry">
+                <div class="version-header">
+                    <h2>Version 2.2.1</h2>
+                    <span class="release-date">January 1, 2026</span>
+                </div>
+                <div class="changes">
+                    <div class="change-category">
+                        <h3><i class="fas fa-wrench"></i> Improvements</h3>
+                        <ul>
+                            <li>Added the ability to share your last month, last 6 months, or last year of listening on socials</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <!-- Version 2.2.0 -->
             <div class="changelog-entry">
                 <div class="version-header">
@@ -382,9 +398,15 @@
             <a href="/terms">Privacy Policy & Terms of Service</a>
         </div>
         <p class="disclaimer">This application is not affiliated with, maintained, authorized, endorsed, or sponsored by Spotify.</p>
-        <p>&copy; 2025 <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> <a href="https://www.ericterranova.com" target="_blank">Eric Terranova</a>. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+    
     <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
 
 </body>
