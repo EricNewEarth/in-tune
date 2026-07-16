@@ -226,6 +226,11 @@ async function searchSpotify(query, type) {
         })
     });
 
+    if (response.status === 401) {
+        window.location.href = '/login';
+        throw new Error('Session expired. Redirecting to sign in...');
+    }
+
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Search failed');
