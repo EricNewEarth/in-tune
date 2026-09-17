@@ -1,5 +1,4 @@
 // Navigation Arrows JavaScript functionality
-// Works for both dashboard and custom pages
 
 function initializeNavigationArrows() {
 
@@ -46,24 +45,29 @@ function initializeNavigationArrows() {
     const upArrow = document.getElementById('navArrowUp');
     const downArrow = document.getElementById('navArrowDown');
 
-    // Show arrow elements
-    upArrow.classList.add('visible');
-    downArrow.classList.add('visible');
-    
     if (!upArrow || !downArrow) {
         console.warn('Navigation arrow elements not found');
         return;
     }
-    
+
+    // Show arrow elements
+    upArrow.classList.add('visible');
+    downArrow.classList.add('visible');
+
     console.log('Navigation arrows found and ready');
-    
+
+    // Offset from the top of the viewport a section rests at once scrolled to
+    const SCROLL_OFFSET = 150;
+
+    // Document-relative scroll position for a section
+    function sectionScrollTop(section) {
+        return section.getBoundingClientRect().top + window.pageYOffset - SCROLL_OFFSET;
+    }
+
     // Function to scroll to a section
     function scrollToSection(section) {
-        const yOffset = -150; // 100px offset from the top
-        const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        
         window.scrollTo({
-            top: y,
+            top: sectionScrollTop(section),
             behavior: 'smooth'
         });
     }
@@ -107,18 +111,21 @@ function initializeNavigationArrows() {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(function() {
             const scrollPos = window.scrollY;
-            const headerBottom = header.offsetTop + header.offsetHeight;
-            const artistsTop = artistsSection.offsetTop - 100;
-            const tracksTop = tracksSection.offsetTop; 
-            
-            if (scrollPos < artistsTop) {
-                currentSection = 0;
-            } else if (scrollPos < tracksTop) {
+            const artistsTop = sectionScrollTop(artistsSection);
+            const tracksTop = sectionScrollTop(tracksSection);
+            const tolerance = 5;
+
+            const atBottom = scrollPos + window.innerHeight >=
+                document.documentElement.scrollHeight - 2;
+
+            if (atBottom || scrollPos >= tracksTop - tolerance) {
+                currentSection = 2;
+            } else if (scrollPos >= artistsTop - tolerance) {
                 currentSection = 1;
             } else {
-                currentSection = 2;
+                currentSection = 0;
             }
-            
+
         }, 100);
     });
     

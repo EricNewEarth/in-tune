@@ -275,21 +275,10 @@ def format_release_date(release_date: str) -> str:
 # Create a new Spotify playlist with custom name and current displayed tracks
 def create_playlist(access_token: str, playlist_name: str, tracks_list: list) -> dict:
 
-    # Get the user's profile ID
-    user_url = 'https://api.spotify.com/v1/me'
     headers = { 'Authorization': f'Bearer {access_token}' }
-
-    user_response = requests.get(user_url, headers=headers)
-
-    if user_response.status_code != 200:
-        print(f'Error getting user profile: {user_response.status_code}, {user_response.text}')
-        raise Exception('Failed to get user profile.')
     
-    user_data = user_response.json()
-    user_id = user_data['id']
-
     # Create a new playlist from top items
-    playlist_url = f'https://api.spotify.com/v1/users/{user_id}/playlists'
+    playlist_url = 'https://api.spotify.com/v1/me/playlists'
     playlist_data = {
         'name': playlist_name,
         'description': 'Created using the InTune app.',
@@ -328,7 +317,7 @@ def create_playlist(access_token: str, playlist_name: str, tracks_list: list) ->
         raise Exception('No valid tracks found for playlist creation.')
     
     # Add tracks to playlist using post request
-    tracks_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
+    tracks_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/items'
     track_uris = [f'spotify:track:{track_id}' for track_id in track_ids]
 
     add_tracks_data = {'uris': track_uris}

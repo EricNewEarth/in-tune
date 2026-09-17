@@ -538,6 +538,7 @@ header {
     border-radius: 30px;
     border: 2px solid transparent;
     outline: none;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     font-weight: 500;
     font-size: 1rem;
     cursor: pointer;
@@ -550,6 +551,12 @@ header {
     background-position: right 0.7rem center;
     background-size: 1em;
     padding-right: 2rem;
+}
+
+.count-dropdown option {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--card-bg);
+    color: white;
 }
 
 .count-dropdown:hover {
@@ -728,7 +735,7 @@ header {
 }
 
 .card-image {
-    height: 250px;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     position: relative;
     z-index: 1;
@@ -930,6 +937,8 @@ header {
 .tags {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 0.4rem;
     margin-bottom: 0.8rem;
 }
@@ -941,6 +950,96 @@ header {
     border-radius: 12px;
     font-size: 0.7rem;
     display: inline-block;
+}
+
+.tag.tag-collapsed {
+    display: none;
+}
+
+.tag.tag-revealed {
+    animation: tagReveal 0.25s ease;
+}
+
+@keyframes tagReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tag-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(29, 185, 84, 0.2);
+    color: var(--spotify-green);
+    font-size: 0.6rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tag-toggle[hidden] {
+    display: none;
+}
+
+.tag-toggle:hover {
+    background-color: rgba(29, 185, 84, 0.45);
+    color: white;
+}
+
+.tag-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.tag-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+.tag-toggle-label {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
+    transition: opacity 0.3s;
+}
+
+.tag-toggle-label::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -4px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tag-toggle:hover .tag-toggle-label,
+.tag-toggle:focus-visible .tag-toggle-label {
+    visibility: visible;
+    opacity: 1;
 }
 
 .stats {
@@ -1259,6 +1358,7 @@ header {
     display: block;
     margin: auto;
     margin-bottom: 1rem;
+    margin-top: 1rem;
     padding: 0.8rem 2rem;
 }
 
